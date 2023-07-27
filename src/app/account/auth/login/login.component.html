@@ -1,0 +1,62 @@
+<div class="login__container">
+  <div class="login__wrapper">
+    <h1 class="login__title">LOG IN</h1>
+    <form class="login__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="login__input">
+        <label class="login__input-name">Username</label>
+        <input
+          class="login__input-content"
+          type="text"
+          autoComplete="off"
+          placeholder="Enter your Username ..."
+          formControlName="username"
+        />
+        <p
+          class="form-input-item-error"
+          *ngIf="isSubmit && f.username.errors?.required"
+        >
+          Please enter your username
+        </p>
+      </div>
+      <div class="login__input">
+        <label class="login__input-name">Password</label>
+        <input
+          class="login__input-content"
+          type="password"
+          placeholder="Enter your Password ..."
+          autoComplete="off"
+          formControlName="password"
+        />
+        <p
+          class="form-input-item-error"
+          *ngIf="isSubmit && f.password.errors?.required"
+        >
+          Please enter your password
+        </p>
+
+        <p
+          class="form-input-item-error"
+          *ngIf="
+            isSubmit &&
+            !f.password.errors?.required &&
+            f.password.errors?.minlength
+          "
+        >
+          Password must be at least 8 chareacters
+        </p>
+      </div>
+      <span class="login__input-help"> Forget password ? </span>
+      <button class="login__input-btn" type="submit">Log in</button>
+    </form>
+    <div class="login__text">
+      <span class="login__text-content">Haven't account? </span>
+      <a class="login__btn-text" routerLink="/account/auth/registration">
+        Registration
+      </a>
+    </div>
+    <div class="login__text">
+      <span class="login__text-content"></span>
+      <button class="login__btn-text">Using website without account?</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,180 @@
+<div class="modal-header align-middle">
+  <h4 id="modal-title">
+    {{
+      type === "edit"
+        ? "Edit booking"
+        : type === "create"
+        ? "Create booking"
+        : "View booking"
+    }}
+  </h4>
+  <button
+    (click)="activeModal.dismiss('Cross click')"
+    aria-describedby="modal-title"
+    class="close"
+    type="button"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- <app-ui-preloader [display]="loading"></app-ui-preloader> -->
+  <form [formGroup]="form" id="form-1">
+    <div class="row">
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">Name<span class="text-danger">(*)</span></label>
+        <input
+          [ngClass]="{ 'is-invalid': isSubmit && f.name.errors }"
+          maxlength="255"
+          class="form-control"
+          formControlName="name"
+          autocomplete="none"
+          placeholder="Enter your name"
+          type="text"
+        />
+        <div *ngIf="isSubmit && f.name.errors" class="invalid-feedback">
+          <span *ngIf="f.name.errors.required">Please enter your name</span
+          ><br />
+          <!-- <span *ngIf="f.code.errors.maxlength"></span> -->
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">Phone<span class="text-danger">(*)</span></label>
+        <input
+          class="form-control"
+          [ngClass]="{ 'is-invalid': isSubmit && f.phone.errors }"
+          formControlName="phone"
+          placeholder="Enter your phone"
+          autocomplete="none"
+          type="text"
+          maxlength="255"
+        />
+        <div *ngIf="isSubmit && f.phone.errors" class="invalid-feedback">
+          <span *ngIf="f.phone.errors.required">Please enter your phone</span
+          ><br />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">Date<span class="text-danger">(*)</span></label>
+        <input
+          #event
+          type="date"
+          [ngClass]="{ 'is-invalid': isSubmit && f.date.errors }"
+          formControlName="date"
+          class="form-control"
+          placeholder="Enter your date"
+          [min]="today"
+        />
+        <div *ngIf="isSubmit && f.date.errors" class="invalid-feedback">
+          <span *ngIf="f.date.errors.required">Please choose your date</span
+          ><br />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">Product<span class="text-danger">(*)</span></label>
+        <ng-select
+          class="form-control"
+          [ngClass]="{ 'is-invalid': isSubmit && f.productType.errors }"
+          [items]="listProduct"
+          bindValue="id"
+          bindLabel="name"
+          formControlName="productType"
+          (change)="changeProductType($event)"
+        >
+        </ng-select>
+        <div *ngIf="isSubmit && f.productType.errors" class="invalid-feedback">
+          <span *ngIf="f.productType.errors.required"
+            >Please choose your product type</span
+          ><br />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">Teller<span class="text-danger">(*)</span></label>
+        <ng-select
+          class="form-control"
+          [ngClass]="{ 'is-invalid': isSubmit && f.employeeId.errors }"
+          [items]="listEmployeeFilter"
+          bindValue="id"
+          bindLabel="name"
+          formControlName="employeeId"
+        >
+        </ng-select>
+        <div *ngIf="isSubmit && f.employeeId.errors" class="invalid-feedback">
+          <span *ngIf="f.employeeId.errors.required"
+            >Please choose your teller</span
+          ><br />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">Status<span class="text-danger">(*)</span></label>
+        <ng-select
+          class="form-control"
+          [ngClass]="{ 'is-invalid': isSubmit && f.status.errors }"
+          [items]="listStatus"
+          bindValue="id"
+          bindLabel="name"
+          formControlName="status"
+        >
+        </ng-select>
+        <div *ngIf="isSubmit && f.status.errors" class="invalid-feedback">
+          <span *ngIf="f.status.errors.required">Please choose status</span
+          ><br />
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="modal-body">
+    <h4 id="modal-title">Booking list</h4>
+    <div class="row"></div>
+    <!-- <app-ui-preloader [display]="loading"></app-ui-preloader> -->
+    <div class="col-12 table-responsive mt-2">
+      <table class="table table-bordered table-sm table-hover m-w-tabble">
+        <thead>
+          <tr class="m-header-table">
+            <th class="text-center align-middle mw-100">Name</th>
+            <th class="text-center align-middle mw-150">Product type</th>
+            <th class="text-center align-middle mw-150">Date</th>
+            <th class="text-center align-middle mw-150">
+              Employee responsibility
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              *ngIf="!listBooking || listBooking.length === 0"
+              class="text-center align-middle"
+              colspan="7"
+            >
+              No data
+            </td>
+          </tr>
+          <tr *ngFor="let item of listBooking; let i = index">
+            <td class="align-middle text-center text-primary">
+              <span class="m-cursor"> {{ item?.name }}</span>
+            </td>
+            <td class="align-middle">{{ item?.productType }}</td>
+            <td class="align-middle">
+              {{ item?.date | date : "MM/dd/yyyy" }}
+            </td>
+            <td class="align-middle">{{ item?.employeeName }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer" *ngIf="type !== 'view'">
+  <button (click)="search()" class="btn btn-secondary" type="button">
+    <i class="fa fa-search mr-1"></i>Search
+  </button>
+  <button (click)="submit()" class="btn btn-primary" type="button">
+    <i class="fa fa-check mr-1"></i>Save
+  </button>
+</div>

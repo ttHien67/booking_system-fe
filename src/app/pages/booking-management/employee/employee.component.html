@@ -1,0 +1,236 @@
+<div class="container-fluid">
+  <!-- <app-page-title title="Quản lý xã"></app-page-title> -->
+  <div class="row">
+    <div class="col-12 card-box">
+      <div class="border-bottom-dotted">
+        <h4 class="header-title text-primary">Employee Management</h4>
+      </div>
+      <div class="row">
+        <div class="col-12 p-0">
+          <div class="p-2">
+            <form [formGroup]="form">
+              <div class="row">
+                <label
+                  class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+                >
+                  Code:</label
+                >
+                <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4 mt-2">
+                  <input
+                    type="text"
+                    formControlName="code"
+                    class="form-control"
+                    placeholder="Enter your code"
+                    autocomplete="none"
+                    (keyup.enter)="search()"
+                  />
+                </div>
+
+                <label
+                  class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+                  >Name:
+                </label>
+                <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4 mt-2">
+                  <input
+                    type="text"
+                    formControlName="name"
+                    class="form-control"
+                    placeholder="Enter your name"
+                    autocomplete="none"
+                    (keyup.enter)="search()"
+                  />
+                </div>
+
+                <label
+                  class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+                  >Role:</label
+                >
+                <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4 mt-2">
+                  <input
+                    type="text"
+                    formControlName="role"
+                    autocomplete="none"
+                    class="form-control"
+                    placeholder="Enter your role"
+                    (keyup.enter)="search()"
+                  />
+                </div>
+              </div>
+            </form>
+            <div class="row pt-3">
+              <div class="col-4 text-left">
+                <button
+                  type="button"
+                  class="btn btn-primary mr-1 mb-1"
+                  (click)="openModal(null, 'create')"
+                >
+                  <i class="fa fa-plus mr-1"></i>Create
+                </button>
+
+                <!-- <button
+                  type="button"
+                  class="btn btn-primary btn-file m-cursor mr-1 mb-1"
+                  (click)="export('xlsx')"
+                >
+                  <i class="fas fa-cloud-download-alt"></i
+                  >{{ "system_label.xuat_file" | translate }}
+                </button>
+
+                <span class="btn btn-primary btn-file m-cursor mr-1 mb-1">
+                  <input
+                    #userFileImport
+                    (change)="onFileSelect($event)"
+                    [multiple]="false"
+                    type="file"
+                  />
+                  <i class="fas fa-cloud-upload-alt mr-1"></i>
+                  Import file
+                </span> -->
+              </div>
+              <div class="col-8 text-right">
+                <button
+                  type="button"
+                  class="btn btn-secondary mr-1 mb-1"
+                  (click)="refresh()"
+                >
+                  <i class="fa fa-undo-alt mr-1"></i>Refresh
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary mr-1 mb-1"
+                  (click)="search()"
+                >
+                  <i class="fa fa-search mr-1"></i>Search
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-bottom-dotted mt-2">
+        <div class="row">
+          <div class="col-6">
+            <label class="text-uppercase font-weight-medium theme-color"
+              >Employee list</label
+            >
+          </div>
+          <!-- <div class="col-6 text-right">
+            <span class="m-cursor text-info mr-1">
+              <img height="25" alt="icon" class="mr-1" src="assets/images/file-icons/pdf.svg">
+              {{'system_label.tai_pdf' | translate}}
+            </span>
+            <span class="m-cursor text-info">
+              <img height="25" alt="icon" class="mr-1" src="assets/images/file-icons/xls.svg">
+              {{'system_label.tai_excel' | translate}}
+            </span>
+          </div> -->
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- <app-ui-preloader [display]="loading"></app-ui-preloader> -->
+        <div class="col-12 table-responsive mt-2">
+          <table class="table table-bordered table-sm table-hover m-w-tabble">
+            <thead>
+              <tr class="m-header-table">
+                <th class="text-center align-middle mw-100">Code</th>
+                <th class="text-center align-middle mw-100">Name</th>
+                <th class="text-center align-middle mw-100">Role</th>
+                <th class="text-center align-middle mw-100">
+                  Max customer number for service
+                </th>
+                <th class="text-center align-middle mw-100">Create date</th>
+                <th class="text-center align-middle mw-50">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td
+                  *ngIf="!listEmployee || listEmployee.length === 0"
+                  class="text-center align-middle"
+                  colspan="10"
+                >
+                  No data
+                </td>
+              </tr>
+              <tr *ngFor="let item of listEmployee; let i = index">
+                <td class="align-middle text-center text-primary">
+                  <span class="m-cursor" (click)="openModal(item, 'view')">
+                    {{ item?.code }}</span
+                  >
+                </td>
+                <td class="align-middle">{{ item?.name }}</td>
+                <td class="align-middle text-center">{{ item?.role }}</td>
+                <td class="align-middle text-center">
+                  {{ item?.maxCustomer }}
+                </td>
+                <td class="align-middle">
+                  {{ item?.createDate | date : "dd/MM/yyyy HH:mm:ss" }}
+                </td>
+                <!-- <td class="align-middle" #a></td> -->
+                <td class="align-middle text-center">
+                  <i
+                    class="fa fa-edit fa-lg text-primary m-cursor"
+                    title="Chỉnh sửa"
+                    (click)="openModal(item, 'edit')"
+                  ></i>
+                  <i
+                    class="fa fa-trash fa-lg text-danger ml-1 m-cursor"
+                    title="Xoá"
+                    (click)="deleteEmployee(item)"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="row col-12 pr-0 justify-content-md-between align-items-md-center"
+        >
+          <div
+            class="p-0 col-sm-12 col-md-4 col-lg-4 col-xl-3 pr-0 d-none d-md-block"
+          >
+            <div class="dataTables_length">
+              <label class="d-inline-flex align-items-center"
+                >Show
+                <select
+                  name="tickets-table_length"
+                  aria-controls="tickets-table"
+                  name="pageSize"
+                  (change)="changePageSize($event)"
+                  class="custom-select custom-select-sm form-control form-control-sm mx-2"
+                >
+                  <option [value]="10">10</option>
+                  <option [value]="25">25</option>
+                  <option [value]="50">50</option>
+                </select>
+                rows</label
+              >
+            </div>
+          </div>
+          <div
+            class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-md-0 d-none d-xl-block m-mb-8"
+          >
+            Show
+            {{ totalSize === 0 ? 0 : (pageNumber - 1) * pageSize + 1 }}
+            - {{ pageNumber * pageSize }} of
+            {{ totalSize }}
+          </div>
+          <div class="p-0 col-sm-12 col-md-8 col-lg-4 col-xl-6">
+            <div class="text-md-right float-md-right mt-2">
+              <ngb-pagination
+                (pageChange)="changePage($event)"
+                [(page)]="pageNumber"
+                [collectionSize]="totalSize"
+                [pageSize]="pageSize"
+                [rotate]="true"
+              >
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

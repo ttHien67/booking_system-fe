@@ -1,0 +1,29 @@
+.container_booking  {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    object-fit: cover;
+}
+.container_form {
+    min-height: 30%;
+    min-width: 60%;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 20px 30px;
+    // visibility: hidden;
+
+}
+
+.modal-header {
+    justify-content: center;
+    // align-items: center;
+    margin-bottom: 10px;
+}

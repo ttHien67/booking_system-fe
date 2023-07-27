@@ -1,0 +1,125 @@
+<div class="login__container">
+  <div class="login__wrapper">
+    <h1 class="login__title">Register</h1>
+    <form class="login__form" [formGroup]="form" (submit)="onSubmit()">
+      <div class="login__input">
+        <label class="login__input-name">Full Name</label>
+        <input
+          class="login__input-content"
+          type="text"
+          placeholder="Enter your Full Name ..."
+          formControlName="fullName"
+        />
+        <p
+          class="form-input-item-error"
+          *ngIf="isSubmit && f.fullName.errors?.required"
+        >
+          Please enter your fullname
+        </p>
+      </div>
+
+      <div class="login__input-group">
+        <div class="login__input">
+          <label class="login__input-name">Username</label>
+          <input
+            class="login__input-content"
+            type="text"
+            placeholder="Enter your Username ..."
+            formControlName="userName"
+          />
+          <p
+            class="form-input-item-error"
+            *ngIf="isSubmit && f.userName.errors?.required"
+          >
+            Please enter your username
+          </p>
+        </div>
+        <div class="login__input">
+          <label class="login__input-name">Email</label>
+          <input
+            class="login__input-content"
+            type="email"
+            placeholder="Enter your Email ..."
+            formControlName="email"
+          />
+          <p
+            class="form-input-item-error"
+            *ngIf="isSubmit && f.email.errors?.required"
+          >
+            Please enter your email
+          </p>
+        </div>
+      </div>
+      <div class="login__input">
+        <label class="login__input-name">Address</label>
+        <input
+          class="login__input-content"
+          type="text"
+          placeholder="Enter your Address ..."
+          formControlName="address"
+        />
+        <p
+          class="form-input-item-error"
+          *ngIf="isSubmit && f.address.errors?.required"
+        >
+          Please enter your address
+        </p>
+      </div>
+      <div class="login__input">
+        <label class="login__input-name">Password</label>
+        <input
+          class="login__input-content"
+          type="password"
+          placeholder="Enter your Password ..."
+          formControlName="password"
+        />
+        <p
+          class="form-input-item-error"
+          *ngIf="isSubmit && f.password.errors?.required"
+        >
+          Please enter your password
+        </p>
+        <p
+          class="form-input-item-error"
+          *ngIf="isSubmit && f.password.errors?.minlength"
+        >
+          Password must be at least 8 characters
+        </p>
+      </div>
+
+      <div class="login__input">
+        <label class="login__input-name">Confirm Password</label>
+        <input
+          class="login__input-content"
+          type="password"
+          placeholder="Enter your Password ..."
+          formControlName="confirmPassword"
+          #passwordElement
+        />
+        <p
+          class="form-input-item-error"
+          *ngIf="isSubmit && f.confirmPassword.errors?.required"
+        >
+          Please enter your confirm password
+        </p>
+
+        <p
+          class="form-input-item-error"
+          *ngIf="isSubmit && !checkConfirmPassword()"
+        >
+          Password not same
+        </p>
+      </div>
+
+      <Button class="login__input-help"></Button>
+
+      <button class="login__input-btn" type="submit">Register</button>
+    </form>
+    <div class="login__text">
+      <span class="login__text-content">Already to login ? </span>
+      <button routerLink="/account/auth/login" class="login__btn-text">
+        Login
+      </button>
+    </div>
+  </div>
+</div>

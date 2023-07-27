@@ -1,0 +1,107 @@
+<div class="container_booking">
+  <div class="container_form">
+    <div class="modal-header align-middle">
+      <h4 class="header-title text-primary">BOOKING FORM</h4>
+    </div>
+    <div class="modal-body">
+      <!-- <app-ui-preloader [display]="loading"></app-ui-preloader> -->
+      <form [formGroup]="form" id="form-1">
+        <div class="row">
+          <div class="col-sm-12 col-md-6 form-group">
+            <label class="pt-1">Name<span class="text-danger">(*)</span></label>
+            <input
+              [ngClass]="{ 'is-invalid': isSubmit && f.name.errors }"
+              maxlength="255"
+              class="form-control"
+              formControlName="name"
+              autocomplete="none"
+              placeholder="Enter your name"
+              type="text"
+            />
+            <div *ngIf="isSubmit && f.name.errors" class="invalid-feedback">
+              <span *ngIf="f.name.errors.required">Please enter your name</span
+              ><br />
+              <!-- <span *ngIf="f.code.errors.maxlength"></span> -->
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-6 form-group">
+            <label class="pt-1"
+              >Phone<span class="text-danger">(*)</span></label
+            >
+            <input
+              class="form-control"
+              [ngClass]="{ 'is-invalid': isSubmit && f.phone.errors }"
+              formControlName="phone"
+              placeholder="Enter your phone"
+              autocomplete="none"
+              type="text"
+              maxlength="255"
+            />
+            <div *ngIf="isSubmit && f.phone.errors" class="invalid-feedback">
+              <span *ngIf="f.phone.errors.required"
+                >Please enter your phone</span
+              ><br />
+              <span *ngIf="f.phone.errors.maxlength"
+                >Your number is incorrect</span
+              ><br />
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-6 form-group">
+            <label class="pt-1"
+              >Product<span class="text-danger">(*)</span></label
+            >
+            <ng-select
+              class="form-control"
+              [ngClass]="{ 'is-invalid': isSubmit && f.productType.errors }"
+              [items]="listProduct"
+              bindValue="id"
+              bindLabel="name"
+              formControlName="productType"
+              (change)="changeProductType($event)"
+            >
+            </ng-select>
+            <div
+              *ngIf="isSubmit && f.productType.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="f.productType.errors.required"
+                >Please choose your product type</span
+              ><br />
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-6 form-group">
+            <label class="pt-1"
+              >Teller<span class="text-danger">(*)</span></label
+            >
+            <ng-select
+              class="form-control"
+              [ngClass]="{ 'is-invalid': isSubmit && f.employeeId.errors }"
+              [items]="listEmployeeFilter"
+              bindValue="id"
+              bindLabel="name"
+              formControlName="employeeId"
+            >
+            </ng-select>
+            <div
+              *ngIf="isSubmit && f.employeeId.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="f.employeeId.errors.required"
+                >Please choose your teller</span
+              ><br />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer mt-3">
+      <button (click)="submit()" class="btn btn-primary" type="button">
+        <i class="fa fa-check mr-1"></i>Save
+      </button>
+    </div>
+  </div>
+</div>

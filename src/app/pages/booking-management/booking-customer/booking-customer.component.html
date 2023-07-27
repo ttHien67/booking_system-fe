@@ -1,0 +1,356 @@
+<div class="container">
+  <div class="modal-header align-middle">
+    <h4 class="header-title text-primary">Create booking</h4>
+  </div>
+  <div class="modal-body">
+    <!-- <app-ui-preloader [display]="loading"></app-ui-preloader> -->
+    <form [formGroup]="form" id="form-1">
+      <div class="row">
+        <div class="col-sm-12 col-md-6 form-group">
+          <label class="pt-1">Name<span class="text-danger">(*)</span></label>
+          <input
+            [ngClass]="{ 'is-invalid': isSubmit && f.name.errors }"
+            maxlength="255"
+            class="form-control"
+            formControlName="name"
+            autocomplete="none"
+            placeholder="Enter your name"
+            type="text"
+          />
+          <div *ngIf="isSubmit && f.name.errors" class="invalid-feedback">
+            <span *ngIf="f.name.errors.required">Please enter your name</span
+            ><br />
+            <!-- <span *ngIf="f.code.errors.maxlength"></span> -->
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 form-group">
+          <label class="pt-1">Age<span class="text-danger">(*)</span></label>
+          <input
+            class="form-control"
+            [ngClass]="{ 'is-invalid': isSubmit && f.age.errors }"
+            formControlName="age"
+            placeholder="Enter your age"
+            autocomplete="none"
+            type="text"
+            maxlength="255"
+          />
+          <div *ngIf="isSubmit && f.age.errors" class="invalid-feedback">
+            <span *ngIf="f.age.errors.required">Please enter your age</span
+            ><br />
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 form-group">
+          <label class="pt-1"
+            >Address<span class="text-danger">(*)</span></label
+          >
+          <input
+            class="form-control"
+            [ngClass]="{ 'is-invalid': isSubmit && f.address.errors }"
+            formControlName="address"
+            placeholder="Enter your address"
+            autocomplete="none"
+            type="text"
+            maxlength="255"
+          />
+          <div *ngIf="isSubmit && f.address.errors" class="invalid-feedback">
+            <span *ngIf="f.address.errors.required"
+              >Please enter your address</span
+            ><br />
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 form-group">
+          <label class="pt-1">Phone<span class="text-danger">(*)</span></label>
+          <input
+            class="form-control"
+            [ngClass]="{ 'is-invalid': isSubmit && f.phone.errors }"
+            formControlName="phone"
+            placeholder="Enter your phone"
+            autocomplete="none"
+            type="text"
+            maxlength="255"
+          />
+          <div *ngIf="isSubmit && f.phone.errors" class="invalid-feedback">
+            <span *ngIf="f.phone.errors.required">Please enter your phone</span
+            ><br />
+            <span *ngIf="f.phone.errors.maxlength"
+              >Your number is incorrect</span
+            ><br />
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 form-group">
+          <label class="pt-1">Email</label>
+          <input
+            class="form-control"
+            formControlName="email"
+            placeholder="Enter your email"
+            autocomplete="none"
+            type="email"
+            maxlength="255"
+          />
+        </div>
+
+        <div class="col-sm-12 col-md-6 form-group">
+          <label class="pt-1">Date<span class="text-danger">(*)</span></label>
+          <input
+            #event
+            type="date"
+            [ngClass]="{ 'is-invalid': isSubmit && f.date.errors }"
+            formControlName="date"
+            class="form-control"
+            placeholder="Enter your date"
+            [min]="today"
+            (change)="changeDate()"
+          />
+          <div *ngIf="isSubmit && f.date.errors" class="invalid-feedback">
+            <span *ngIf="f.date.errors.required">Please choose your date</span
+            ><br />
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 form-group">
+          <label class="pt-1"
+            >Start time<span class="text-danger">(*)</span></label
+          >
+          <input
+            type="time"
+            [ngClass]="{ 'is-invalid': isSubmit && f.startTime.errors }"
+            formControlName="startTime"
+            class="form-control"
+            placeholder="Enter your time"
+          />
+          <div *ngIf="isSubmit && f.startTime.errors" class="invalid-feedback">
+            <span *ngIf="f.startTime.errors.required"
+              >Please choose your start time</span
+            ><br />
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 form-group">
+          <label class="pt-1"
+            >End time<span class="text-danger">(*)</span></label
+          >
+          <input
+            type="time"
+            [ngClass]="{ 'is-invalid': isSubmit && f.endTime.errors }"
+            formControlName="endTime"
+            class="form-control"
+            placeholder="Enter your time"
+          />
+          <div *ngIf="isSubmit && f.endTime.errors" class="invalid-feedback">
+            <span *ngIf="f.endTime.errors.required"
+              >Please choose your end time</span
+            ><br />
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 form-group">
+          <label class="pt-1"
+            >Product<span class="text-danger">(*)</span></label
+          >
+          <ng-select
+            class="form-control"
+            [ngClass]="{ 'is-invalid': isSubmit && f.productType.errors }"
+            [items]="listProduct"
+            bindValue="name"
+            bindLabel="name"
+            formControlName="productType"
+            (change)="changeProductType($event)"
+          >
+          </ng-select>
+          <div
+            *ngIf="isSubmit && f.productType.errors"
+            class="invalid-feedback"
+          >
+            <span *ngIf="f.productType.errors.required"
+              >Please choose your product type</span
+            ><br />
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 form-group">
+          <label class="pt-1">Teller<span class="text-danger">(*)</span></label>
+          <ng-select
+            class="form-control"
+            [ngClass]="{ 'is-invalid': isSubmit && f.employeeId.errors }"
+            [items]="listEmployeeFilter"
+            bindValue="id"
+            bindLabel="name"
+            formControlName="employeeId"
+          >
+          </ng-select>
+          <div *ngIf="isSubmit && f.employeeId.errors" class="invalid-feedback">
+            <span *ngIf="f.employeeId.errors.required"
+              >Please choose your teller</span
+            ><br />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer mt-3">
+    <button (click)="submit()" class="btn btn-primary" type="button">
+      <i class="fa fa-check mr-1"></i>Save
+    </button>
+  </div>
+
+  <div class="border-bottom-dotted mt-2">
+    <div class="row">
+      <div class="col-6">
+        <label class="text-uppercase font-weight-medium theme-color"
+          >Booking list</label
+        >
+      </div>
+      <!-- <div class="col-6 text-right">
+        <span class="m-cursor text-info mr-1">
+          <img height="25" alt="icon" class="mr-1" src="assets/images/file-icons/pdf.svg">
+          {{'system_label.tai_pdf' | translate}}
+        </span>
+        <span class="m-cursor text-info">
+          <img height="25" alt="icon" class="mr-1" src="assets/images/file-icons/xls.svg">
+          {{'system_label.tai_excel' | translate}}
+        </span>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- <app-ui-preloader [display]="loading"></app-ui-preloader> -->
+    <div class="col-12 table-responsive mt-2">
+      <table class="table table-bordered table-sm table-hover m-w-tabble">
+        <thead>
+          <tr class="m-header-table">
+            <th class="text-center align-middle mw-100">Name</th>
+            <th class="text-center align-middle mw-50">Age</th>
+            <th class="text-center align-middle mw-50">Product type</th>
+            <th class="text-center align-middle mw-150">Date</th>
+            <th class="text-center align-middle mw-100">Start time</th>
+            <th class="text-center align-middle mw-100">End time</th>
+            <th class="text-center align-middle mw-100">
+              Employee responsibility
+            </th>
+            <th class="text-center align-middle mw-50">Create date</th>
+            <th class="text-center align-middle mw-50">Status</th>
+            <th class="text-center align-middle mw-50">Attitude</th>
+            <th class="text-center align-middle mw-150">Comment</th>
+            <!-- <th class="text-center align-middle mw-50">Action</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              *ngIf="!listBooking || listBooking.length === 0"
+              class="text-center align-middle"
+              colspan="11"
+            >
+              No data
+            </td>
+          </tr>
+          <tr *ngFor="let item of listBooking; let i = index">
+            <td class="align-middle text-center text-primary">
+              <span class="m-cursor"> {{ item?.name }}</span>
+            </td>
+            <td class="align-middle">{{ item?.age }}</td>
+            <td class="align-middle">{{ item?.productType }}</td>
+            <td class="align-middle">
+              {{ item?.date | date : "dd/MM/yyyy" }}
+            </td>
+            <td class="align-middle">{{ item?.startTime }}</td>
+            <td class="align-middle">{{ item?.endTime }}</td>
+            <td class="align-middle">
+              {{ item?.employeeName }}
+            </td>
+            <td class="align-middle">
+              {{ item?.createDate | date : "dd/MM/yyyy" }}
+            </td>
+            <td class="align-middle">
+              {{
+                item?.status === 0
+                  ? "No start"
+                  : item?.status === 1
+                  ? "In progress"
+                  : "Done"
+              }}
+            </td>
+            <td class="align-middle" *ngIf="item.status !== 2">
+              {{ item?.attitude }}
+            </td>
+            <td class="align-middle" *ngIf="item.status !== 2">
+              {{ item?.comment }}
+            </td>
+            <td
+              #other
+              class="align-middle"
+              *ngIf="!item?.comment && item.status === 2"
+              colspan="2  "
+              (click)="openCommentModal(item)"
+            >
+              <i class="fa-duotone fas fa-comments"></i>
+            </td>
+            <!-- <td class="align-middle text-center">
+              <i
+                class="fas fa-edit fa-lg text-primary m-cursor"
+                title="Chỉnh sửa"
+              ></i>
+              <i
+                class="fas fa-trash fa-lg text-danger ml-1 m-cursor"
+                title="Xoá"
+              ></i>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="row col-12 pr-0 justify-content-md-between align-items-md-center"
+    >
+      <div
+        class="p-0 col-sm-12 col-md-4 col-lg-4 col-xl-3 pr-0 d-none d-md-block"
+      >
+        <div class="dataTables_length">
+          <label class="d-inline-flex align-items-center"
+            >Show
+            <select
+              #t
+              name="tickets-table_length"
+              aria-controls="tickets-table"
+              name="pageSize"
+              (change)="changePageSize(t.value)"
+              class="custom-select custom-select-sm form-control form-control-sm mx-2"
+            >
+              <option [value]="10">10</option>
+              <option [value]="25">25</option>
+              <option [value]="50">50</option>
+            </select>
+            rows</label
+          >
+        </div>
+      </div>
+      <div
+        class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-md-0 d-none d-xl-block m-mb-8"
+      >
+        <div class="mr-1">
+          Show
+          {{ totalSize === 0 ? 0 : (pageNumber - 1) * pageSize + 1 }}
+          - {{ pageNumber * pageSize }} of
+          {{ totalSize }}
+        </div>
+      </div>
+      <div class="p-0 col-sm-12 col-md-8 col-lg-4 col-xl-6">
+        <div class="text-md-right float-md-right mt-2">
+          <ngb-pagination
+            (pageChange)="changePage($event)"
+            [(page)]="pageNumber"
+            [collectionSize]="totalSize"
+            [pageSize]="pageSize"
+            [rotate]="true"
+          >
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

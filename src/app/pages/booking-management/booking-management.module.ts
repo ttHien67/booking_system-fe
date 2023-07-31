@@ -17,6 +17,8 @@ import { CommentModalComponent } from './booking-customer/comment-modal/comment-
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { BookingManagementRoutingModule } from './booking-management-routing.module';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   imports: [
@@ -28,7 +30,9 @@ import { BookingManagementRoutingModule } from './booking-management-routing.mod
     ReactiveFormsModule,
     NgbPaginationModule,
     ReactiveFormsModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    NgxScannerQrcodeModule
+
 
   ],
   declarations: [
@@ -41,6 +45,7 @@ import { BookingManagementRoutingModule } from './booking-management-routing.mod
     BookingCustomerComponent,
     CommentModalComponent,
     DashboardComponent,
+    MenuComponent
   ]
 })
 export class BookingManagementModule { }

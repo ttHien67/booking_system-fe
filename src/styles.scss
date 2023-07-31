@@ -45,3 +45,29 @@
 .ng-select.is-invalid.nice-select {
 	border: 1px solid #f1556c !important;
 }
+
+.preloader {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    border-radius: 5px;
+}
+
+.logo-sm {
+    background-image: transparent;
+}
+
+label.label input[type="file"] {
+    position: absolute;
+    top: -1000px;
+}
+.label {
+    cursor: pointer;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 5px 15px;
+    margin: 5px;
+    background: #dddddd;
+    display: inline-block;
+}

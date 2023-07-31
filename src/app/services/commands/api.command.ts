@@ -23,6 +23,13 @@ export class CommandURL {
     // Calendar
     public static CALENDAR = enviroment.PROCESS_SERVICE + '/api/booking/calendarWorking';
 
+    // PRODUCT
+    public static PRODUCT = enviroment.PROCESS_SERVICE + '/api/booking/product';
+
+    // Notification
+    public static NOTIFICATION = enviroment.NOTIFICATION_SERVICE + '/api/booking/notification';
+
+
 
 
 }

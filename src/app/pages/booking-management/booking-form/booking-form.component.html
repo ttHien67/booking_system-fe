@@ -34,7 +34,7 @@
                   <ng-select
                     class="form-control"
                     [items]="listProduct"
-                    bindValue="id"
+                    bindValue="code"
                     bindLabel="name"
                     formControlName="productType"
                   >
@@ -70,7 +70,6 @@
                     formControlName="date"
                     class="form-control"
                     placeholder="Enter your date"
-                    [min]="today"
                   />
                 </div>
               </div>
@@ -84,6 +83,26 @@
                 >
                   <i class="fas fa-plus mr-1"></i>Create
                 </button>
+
+                <label class="label">
+                  <input
+                    placeholder="Scan"
+                    #file
+                    type="file"
+                    (change)="onSelects(file.files)"
+                    [accept]="'.jpg, .png, .gif, .jpeg'"
+                  />
+
+                  <div *ngFor="let item of qrCodeResult" hidden="true">
+                    <ngx-scanner-qrcode
+                      #actionFile="scanner"
+                      [src]="item.url"
+                      [config]="config"
+                      (event)="searchByQrCode(actionFile.data.value)"
+                    ></ngx-scanner-qrcode>
+                  </div>
+                  <span>Scan file</span>
+                </label>
 
                 <!-- <button
                   type="button"
@@ -153,13 +172,15 @@
             <thead>
               <tr class="m-header-table">
                 <th class="text-center align-middle mw-100">Name</th>
-                <th class="text-center align-middle mw-50">Product type</th>
+                <th class="text-center align-middle mw-50">Product</th>
                 <th class="text-center align-middle mw-150">Date</th>
                 <th class="text-center align-middle mw-100">
                   Employee responsibility
                 </th>
                 <th class="text-center align-middle mw-50">Create date</th>
                 <th class="text-center align-middle mw-50">Status</th>
+                <th class="text-center align-middle mw-50">Priority</th>
+                <th class="text-center align-middle mw-50">Attitude</th>
                 <th class="text-center align-middle mw-150">Comment</th>
                 <th class="text-center align-middle mw-50">Action</th>
               </tr>
@@ -181,7 +202,7 @@
                 >
                   <span class="m-cursor"> {{ item?.name }}</span>
                 </td>
-                <td class="align-middle">{{ item?.productType }}</td>
+                <td class="align-middle">{{ item?.productName }}</td>
                 <td class="align-middle">
                   {{ item?.date | date : "dd/MM/yyyy" }}
                 </td>
@@ -200,9 +221,14 @@
                       : "Done"
                   }}
                 </td>
+                <td class="align-middle">
+                  {{ item?.priority === 0 ? "No" : "Yes" }}
+                </td>
+                <td class="align-middle">{{ item?.attitude }}</td>
                 <td class="align-middle">{{ item?.comment }}</td>
                 <td class="align-middle text-center">
                   <i
+                    *ngIf="item.status !== 2"
                     class="fas fa-edit fa-lg text-primary m-cursor"
                     title="Chỉnh sửa"
                     (click)="openModal(item, 'edit')"

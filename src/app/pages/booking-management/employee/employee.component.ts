@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from 'src/app/services/module/employee.service';
 import { EmployeeModalComponent } from './employee-modal/employee-modal.component';
 import Swal from 'sweetalert2';
+import { ProductService } from 'src/app/services/module/product.service';
 
 @Component({
   selector: 'app-employee',
@@ -15,6 +16,7 @@ export class EmployeeComponent implements OnInit {
 
   form: any;
   listEmployee: Array<any> = [];
+  listProduct: any;
   totalSize: any;
   pageNumber = 1;
   pageSize = 5;
@@ -24,11 +26,13 @@ export class EmployeeComponent implements OnInit {
     private employeeService: EmployeeService,
     private toastService: ToastrService,
     private modalService: NgbModal,
+    private productService: ProductService
   ) { }
 
   ngOnInit() {
     this.initForm();
     this.getEmployeeList();
+    this.getProduct();
   }
 
   initForm() {
@@ -63,12 +67,16 @@ export class EmployeeComponent implements OnInit {
     })
   }
 
-  search() {
-    this.getEmployeeList();
+  getProduct() {
+    this.productService.getProduct({}).subscribe(res => {
+      if(res.errorCode === '0'){
+        this.listProduct = res.data;
+      }
+    })
   }
 
-  create(){
-
+  search() {
+    this.getEmployeeList();
   }
 
   refresh() {
@@ -83,6 +91,7 @@ export class EmployeeComponent implements OnInit {
     }
     modalRef.componentInstance.title = item ? "Edit" : "Create";
     modalRef.componentInstance.type = type;
+    modalRef.componentInstance.listProduct = this.listProduct
     modalRef.componentInstance.passEntry.subscribe((receivedEntry: any) => {
       this.modalService.dismissAll();
       this.getEmployeeList();

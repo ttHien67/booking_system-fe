@@ -7,6 +7,9 @@ import { CalendarWorkingService } from 'src/app/services/module/calendar-working
 import { EmployeeService } from 'src/app/services/module/employee.service';
 import { BookingConfirmComponent } from './booking-confirm/booking-confirm.component';
 import { QrcodeGenerationComponent } from './qrcode-generation/qrcode-generation.component';
+import { ProductService } from 'src/app/services/module/product.service';
+import { NgxScannerQrcodeService, ScannerQRCodeConfig, ScannerQRCodeSelectedFiles } from 'ngx-scanner-qrcode';
+import { CommentModalComponent } from './comment-modal/comment-modal.component';
 
 @Component({
   selector: 'app-booking',
@@ -21,27 +24,21 @@ export class BookingComponent implements OnInit {
   listEmployeeFilter: Array<any> = [];
 
   listWorking: any;
+  listProduct: any;
+  loading = false;
+
+  public qrCodeResult: ScannerQRCodeSelectedFiles[] = [];
+
 
   today = new Date().toISOString().split('T')[0];
 
-  listProduct = [
-    {
-      id: 'a',
-      name: "Create new account bank"
-    },
-    { 
-      id: 'b',
-      name: "Restore account bank"
-    },
-    { 
-      id: 'c',
-      name: "Money transfer"
-    },
-    { 
-      id: 'd',
-      name: "Block account bank"
-    }
-  ]
+  public config: ScannerQRCodeConfig = {
+    constraints: { 
+      video: {
+        width: window.innerWidth
+      }
+    } 
+  };
   
   constructor(
     private formBuilder: FormBuilder,
@@ -49,13 +46,17 @@ export class BookingComponent implements OnInit {
     private calendarWorkingService: CalendarWorkingService,
     private modalService: NgbModal,
     private bookingService: BookingService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private productService: ProductService,
+    private qrcode: NgxScannerQrcodeService
+
   ) { }
 
   ngOnInit() {
     document.body.style.backgroundImage = 'url(\'assets/img/nature.jpg\')';
     this.initForm();
     this.getEmployee();
+    this.getProduct();
     
   }
 
@@ -85,7 +86,16 @@ export class BookingComponent implements OnInit {
     })
   }
 
+  getProduct() {
+    this.productService.getProduct({}).subscribe(res => {
+      if(res.errorCode === '0'){
+        this.listProduct = res.data;
+      }
+    })
+  }
+
   submit() {
+    this.loading = true;
     this.isSubmit = true;
     if(this.form.status === 'INVALID') {
       return;
@@ -93,6 +103,7 @@ export class BookingComponent implements OnInit {
       this.confirmBooking();
     }
     this.isSubmit = false;
+    this.loading = false;
   }
 
   confirmBooking() {
@@ -136,7 +147,7 @@ export class BookingComponent implements OnInit {
       productType: this.f.productType?.value
     }
     
-    this.listEmployeeFilter = this.listEmployee.filter(e => (e.role === event?.id));
+    this.listEmployeeFilter = this.listEmployee.filter(e => (e.role === event?.code));
 
     this.calendarWorkingService.countService(json).subscribe(res => {
       if(res.errorCode === '0'){
@@ -149,10 +160,30 @@ export class BookingComponent implements OnInit {
         let randomTeller = Math.floor(Math.random() * this.listEmployeeFilter.length);
         this.f.employeeId.patchValue(this.listEmployeeFilter[randomTeller]?.id);
       }
-    })
+    }) 
+  }
 
-    
-    
+  public onSelects(files: any) {
+    this.qrcode.loadFiles(files).subscribe((res: ScannerQRCodeSelectedFiles[]) => {
+      this.qrCodeResult = res;
+    });
+  }
+
+  show(event: any) {
+
+    this.bookingService.getBooking(JSON.parse(event[0].value)).subscribe(res => {
+      if(res.errorCode === '0'){
+        if(res.data[0].status === 2){
+          const modalRef = this.modalService.open(CommentModalComponent, {centered: true, size: 'lg', backdrop: 'static'});
+          modalRef.componentInstance.item = res.data[0];
+          modalRef.componentInstance.passEntry.subscribe((receivedEntry: any) => {
+            this.modalService.dismissAll();
+          })
+        }else {
+          this.toastService.warning("Your transaction's status hasn't been done");
+        }
+      }
+    })
   }
 
 }

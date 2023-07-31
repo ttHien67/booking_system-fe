@@ -14,29 +14,11 @@ export class EmployeeModalComponent implements OnInit {
 
   @Input() item: any;
   @Input() type: any;
+  @Input() listProduct: any;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
 
   form: any;
   isSubmit = false;
-
-  listRole = [
-    {
-      id: 'a',
-      name: "Create new account bank"
-    },
-    { 
-      id: 'b',
-      name: "Restore account bank"
-    },
-    { 
-      id: 'c',
-      name: "Money transfer"
-    },
-    { 
-      id: 'd',
-      name: "Block account bank"
-    }
-  ]
 
   listQuantity = [
     {

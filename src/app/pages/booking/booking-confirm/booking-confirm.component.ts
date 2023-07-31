@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BookingService } from 'src/app/services/module/booking.service';
 import { CalendarWorkingService } from 'src/app/services/module/calendar-working.service';
 import { EmployeeService } from 'src/app/services/module/employee.service';
+import { NotificationService } from 'src/app/services/module/notification.service';
 
 @Component({
   selector: 'app-booking-confirm',
@@ -25,7 +26,7 @@ export class BookingConfirmComponent implements OnInit {
   form: any;
 
   today = new Date().toISOString().split('T')[0];
-
+  loading = false;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -34,7 +35,8 @@ export class BookingConfirmComponent implements OnInit {
     private bookingService: BookingService,
     private calendarWorkingService: CalendarWorkingService,
     private toastService: ToastrService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -92,7 +94,7 @@ export class BookingConfirmComponent implements OnInit {
       productType: this.f.productType?.value
     }
 
-    this.listEmployeeFilter = this.listEmployee.filter(e => (e.role === event?.id));
+    this.listEmployeeFilter = this.listEmployee.filter(e => (e.role === event?.code));
 
     this.calendarWorkingService.countService(json).subscribe(res => {
       if(res.errorCode === '0'){
@@ -109,6 +111,7 @@ export class BookingConfirmComponent implements OnInit {
   }
 
   create() {
+    this.loading = true;
     this.calendarWorkingService.createCalendar(this.form.value).subscribe(res => {
       if(res.errorCode !== '0'){
         this.toastService.error("Something was wrong");
@@ -121,6 +124,11 @@ export class BookingConfirmComponent implements OnInit {
     }, err => {
       console.log(err);  
     });
+
+    this.notificationService.sendNotification(this.form.value).subscribe(res => {
+      console.log(res);
+    })
+    this.loading = false;
   }
 
   close() {

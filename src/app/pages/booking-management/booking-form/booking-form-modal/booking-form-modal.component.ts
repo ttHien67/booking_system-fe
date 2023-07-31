@@ -17,6 +17,7 @@ export class BookingFormModalComponent implements OnInit {
   @Input() item: any;
   @Input() type: any;
   @Input() listEmployee: Array<any> = [];
+  @Input() listProduct: Array<any> = [];
 
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
 
@@ -28,25 +29,6 @@ export class BookingFormModalComponent implements OnInit {
   listBooking: Array<any> = [];
   listBookingFilter: Array<any> = [];
   listWorking: Array<any> = [];
-
-  listProduct = [
-    {
-      id: 'a',
-      name: "Create new account bank"
-    },
-    { 
-      id: 'b',
-      name: "Restore account bank"
-    },
-    { 
-      id: 'c',
-      name: "Money transfer"
-    },
-    { 
-      id: 'd',
-      name: "Block account bank"
-    }
-  ]
 
   listStatus = [
     {
@@ -173,7 +155,7 @@ export class BookingFormModalComponent implements OnInit {
       productType: this.f.productType?.value
     }
     
-    this.listEmployeeFilter = this.listEmployee.filter(e => (e.role === event?.id));
+    this.listEmployeeFilter = this.listEmployee.filter(e => (e.role === event?.code));
 
     this.calendarWorkingService.countService(json).subscribe(res => {
       if(res.errorCode === '0'){

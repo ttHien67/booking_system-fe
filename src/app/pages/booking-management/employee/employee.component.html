@@ -46,14 +46,15 @@
                   >Role:</label
                 >
                 <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4 mt-2">
-                  <input
-                    type="text"
+                  <ng-select
+                    [items]="listProduct"
+                    bindLabel="name"
+                    bindValue="code"
                     formControlName="role"
                     autocomplete="none"
                     class="form-control"
-                    placeholder="Enter your role"
                     (keyup.enter)="search()"
-                  />
+                  ></ng-select>
                 </div>
               </div>
             </form>
@@ -161,7 +162,7 @@
                   >
                 </td>
                 <td class="align-middle">{{ item?.name }}</td>
-                <td class="align-middle text-center">{{ item?.role }}</td>
+                <td class="align-middle">{{ item?.roleName }}</td>
                 <td class="align-middle text-center">
                   {{ item?.maxCustomer }}
                 </td>

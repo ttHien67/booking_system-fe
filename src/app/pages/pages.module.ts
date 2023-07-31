@@ -13,6 +13,11 @@ import { BookingComponent } from './booking/booking.component';
 import { BookingConfirmComponent } from './booking/booking-confirm/booking-confirm.component';
 import { QrcodeGenerationComponent } from './booking/qrcode-generation/qrcode-generation.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { PreloaderComponent } from './preloader/preloader.component';
+import { LOAD_WASM, NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+import { CommentModalComponent } from './booking/comment-modal/comment-modal.component';
+
+// LOAD_WASM().subscribe((res: any) => console.log('LOAD_WASM', res));  
 
 @NgModule({
   imports: [
@@ -25,12 +30,15 @@ import { QRCodeModule } from 'angularx-qrcode';
     NgbPaginationModule,
     ReactiveFormsModule,
     NgApexchartsModule,
-    QRCodeModule
+    QRCodeModule,
+    NgxScannerQrcodeModule
   ],
   declarations: [
     BookingComponent,
     BookingConfirmComponent,
-    QrcodeGenerationComponent
+    QrcodeGenerationComponent,
+    PreloaderComponent,
+    CommentModalComponent
   ]
 })
 export class PagesModule { }

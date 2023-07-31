@@ -12,18 +12,20 @@ export class AuthGuard{
 
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.authService.currentUser();
-        // if (currentUser) {
-        //     // logged in so return true
-        //     // get all permission of page with logged in user
-        //     await this.permissionService.getPermissions(state.url, currentUser.userId).toPromise();
-        //     // check user don't have permission VIEW
-        //     if (this.permissionService.authData?.VIEW === 'N') {
-        //         this.router.navigate(['/home-page']);
-        //         return false;
-        //     }
-        //     return true;
-        // }
-        if(currentUser){
+        if (currentUser) {
+            // if(currentUser.roleCode === 'EMPLOYEE'){
+            //     this.router.navigate(['/management/booking-management']);
+            //     return true;
+            // }else return true;
+            
+            // logged in so return true
+            // get all permission of page with logged in user
+            // await this.permissionService.getPermissions(state.url, currentUser.userId).toPromise();
+            // // check user don't have permission VIEW
+            // if (this.permissionService.authData?.VIEW === 'N') {
+            //     this.router.navigate(['/home-page']);
+            //     return false;
+            // }
             return true;
         }
 

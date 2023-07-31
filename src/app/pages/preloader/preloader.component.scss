@@ -1,0 +1,12 @@
+.logo-sm {
+    animation: app-logo-spin infinite 1s linear
+}
+
+@keyframes app-logo-spin {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg)
+    }
+}

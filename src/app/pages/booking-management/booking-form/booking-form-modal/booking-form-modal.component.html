@@ -79,7 +79,7 @@
           class="form-control"
           [ngClass]="{ 'is-invalid': isSubmit && f.productType.errors }"
           [items]="listProduct"
-          bindValue="id"
+          bindValue="code"
           bindLabel="name"
           formControlName="productType"
           (change)="changeProductType($event)"

@@ -6,6 +6,7 @@ import { BookingCustomerComponent } from './booking-customer/booking-customer.co
 import { BookingFormComponent } from './booking-form/booking-form.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { CustomerComponent } from './customer/customer.component';
+import { MenuComponent } from './menu/menu.component';
 
 const routes: Routes = [
   {
@@ -32,7 +33,12 @@ const routes: Routes = [
     path:"customer",
     component: CustomerComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path:"menu",
+    component: MenuComponent,
+    canActivate: [AuthGuard]
+  },
 ]
 
 @NgModule({

@@ -9,6 +9,8 @@ import Swal from 'sweetalert2'
 import { CustomerModalComponent } from '../customer/customer-modal/customer-modal.component';
 import { EmployeeService } from 'src/app/services/module/employee.service';
 import { AuthService } from 'src/app/services/module/auth.service';
+import { ProductService } from 'src/app/services/module/product.service';
+import { NgxScannerQrcodeService, ScannerQRCodeConfig, ScannerQRCodeSelectedFiles } from 'ngx-scanner-qrcode';
 
 @Component({
   selector: 'app-booking-form',
@@ -22,29 +24,18 @@ export class BookingFormComponent implements OnInit {
   pageSize = 5;
   pageNumber = 1;
   totalSize: any;
-
-  listProduct = [
-    {
-      id: 'a',
-      name: "Create new account bank"
-    },
-    { 
-      id: 'b',
-      name: "Restore account bank"
-    },
-    { 
-      id: 'c',
-      name: "Money transfer"
-    },
-    { 
-      id: 'd',
-      name: "Block account bank"
-    }
-  ]
+  listProduct: any;
 
   listEmployee: any;
+  public qrCodeResult: ScannerQRCodeSelectedFiles[] = [];
 
-  today = new Date().toISOString().split('T')[0];
+  public config: ScannerQRCodeConfig = {
+    constraints: { 
+      video: {
+        width: window.innerWidth
+      }
+    } 
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,12 +43,16 @@ export class BookingFormComponent implements OnInit {
     private bookingService: BookingService,
     private toastService: ToastrService,
     private employeeService: EmployeeService,
-    public authService: AuthService
+    public authService: AuthService,
+    private productService: ProductService,
+    private qrcode: NgxScannerQrcodeService
+
   ) { }
 
   ngOnInit() {
     this.initForm();
     this.getEmployee();
+    this.getProduct();
 
     if(this.authService.currentUser().roleCode === 'EMPLOYEE'){
       this.getBookingOfEmployee();
@@ -109,10 +104,16 @@ export class BookingFormComponent implements OnInit {
     this.employeeService.getEmployee({accountId: userId}).subscribe(res => {
       if(res.errorCode === '0'){
         let employee = res.data;
-        console.log(employee);
-        
         this.f.employeeId.patchValue(employee[0]?.id);
         this.getBookingList();
+      }
+    })
+  }
+
+  getProduct() {
+    this.productService.getProduct({}).subscribe(res => {
+      if(res.errorCode === '0'){
+        this.listProduct = res.data;
       }
     })
   }
@@ -125,6 +126,7 @@ export class BookingFormComponent implements OnInit {
     modalRef.componentInstance.title = item ? "Edit" : "Create";
     modalRef.componentInstance.type = type;
     modalRef.componentInstance.listEmployee = this.listEmployee;
+    modalRef.componentInstance.listProduct = this.listProduct;
     modalRef.componentInstance.passEntry.subscribe((receivedEntry: any) => {
       this.modalService.dismissAll();
       if(this.authService.currentUser().roleCode === 'EMPLOYEE'){
@@ -209,6 +211,20 @@ export class BookingFormComponent implements OnInit {
     }
 
     this.refresh();
+  }
+
+  public onSelects(files: any) {
+    this.qrcode.loadFiles(files).subscribe((res: ScannerQRCodeSelectedFiles[]) => {
+      this.qrCodeResult = res;
+    });
+  }
+
+  searchByQrCode(event: any){
+    this.bookingService.getBooking(JSON.parse(event[0].value)).subscribe(res => {
+      if(res.errorCode === '0'){
+        this.listBooking = res.data;
+      }
+    })
   }
 
 }

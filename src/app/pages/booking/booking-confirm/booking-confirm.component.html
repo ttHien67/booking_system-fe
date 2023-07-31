@@ -10,7 +10,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <!-- <app-ui-preloader [display]="loading"></app-ui-preloader> -->
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
   <form [formGroup]="form" id="form-1">
     <div class="row">
       <div class="col-sm-12 col-md-6 form-group">
@@ -88,7 +88,7 @@
           class="form-control"
           [ngClass]="{ 'is-invalid': isSubmit && f.productType.errors }"
           [items]="listProduct"
-          bindValue="id"
+          bindValue="code"
           bindLabel="name"
           formControlName="productType"
           (change)="changeProductType($event)"
@@ -110,6 +110,7 @@
           bindValue="id"
           bindLabel="name"
           formControlName="employeeId"
+          [readonly]="true"
         >
         </ng-select>
         <div *ngIf="isSubmit && f.employeeId.errors" class="invalid-feedback">

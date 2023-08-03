@@ -15,23 +15,13 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path:"booking-form",
-    component: BookingCustomerComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path:"booking-management",
+    path:"service/booking",
     component: BookingFormComponent,
     canActivate: [AuthGuard]
   },
   {
-    path:"employee",
+    path:"personnel/employee",
     component: EmployeeComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path:"customer",
-    component: CustomerComponent,
     canActivate: [AuthGuard]
   },
   {

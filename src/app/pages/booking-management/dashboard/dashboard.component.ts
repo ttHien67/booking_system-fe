@@ -154,7 +154,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getEmployee() {
-    this.employeeService.getEmployee({}).subscribe(res => {
+    this.employeeService.getAllEmployee({}).subscribe(res => {
       if(res.errorCode === '0'){
         this.listEmployee = res.data;
         this.listEmployee = this.listEmployee.map(e => e.name);
@@ -163,8 +163,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getStatistic() {
-    console.log(this.form.value);
-    
     this.bookingService.statisticBooking(this.form.value).subscribe(res => {
       if(res.errorCode === '0'){
         this.data = res.data;

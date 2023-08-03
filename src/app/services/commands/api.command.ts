@@ -27,6 +27,9 @@ export class CommandURL {
     public static PRODUCT = enviroment.PROCESS_SERVICE + '/api/booking/product';
 
     // Notification
+    public static PERMISSION = enviroment.PROCESS_SERVICE + '/api/booking/permission';
+
+    // Notification
     public static NOTIFICATION = enviroment.NOTIFICATION_SERVICE + '/api/booking/notification';
 
 

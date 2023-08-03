@@ -155,6 +155,28 @@
           ><br />
         </div>
       </div>
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1"
+          >Room<span class="text-danger"
+            >(*)</span
+          ></label
+        >
+        <input
+          class="form-control"
+          [ngClass]="{ 'is-invalid': isSubmit && f.room.errors }"
+          formControlName="room"
+          placeholder="Enter your room"
+          autocomplete="none"
+          type="text"
+          maxlength="255"
+        />
+        <div *ngIf="isSubmit && f.room.errors" class="invalid-feedback">
+          <span *ngIf="f.room.errors.required"
+            >Please enter your room</span
+          ><br />
+        </div>
+      </div>
+
     </div>
     <div class="modal-body" *ngIf="type === 'create'">
       <h4 id="modal-title">Employee account</h4>
@@ -200,6 +222,7 @@
         </div>
       </div>
     </div>
+    
   </form>
 </div>
 <div class="modal-footer" *ngIf="type !== 'view'">

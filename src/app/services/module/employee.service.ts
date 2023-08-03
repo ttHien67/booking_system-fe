@@ -25,6 +25,10 @@ export class EmployeeService {
         return this.http.post<BaseListResponse>(CommandURL.EMPLOYEE + '/getEmployee', json, {headers: this.header});
     }
 
+    getAllEmployee(json : any) {
+        return this.http.post<BaseListResponse>(CommandURL.EMPLOYEE + '/getAllEmployee', json, {headers: this.header});
+    }
+
     updateEmployee(json: any) {
         return this.http.post<BaseResponse>(CommandURL.EMPLOYEE + '/updateEmployee', json, {headers: this.header});
     }

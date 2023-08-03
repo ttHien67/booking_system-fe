@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';;
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';;
 
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -19,11 +19,13 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { BookingManagementRoutingModule } from './booking-management-routing.module';
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 import { MenuComponent } from './menu/menu.component';
+import { MenuModalComponent } from './menu/menu-modal/menu-modal.component';
+import { MenuPermissionComponent } from './menu/menu-permission/menu-permission.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule, 
+    RouterModule,
     BookingManagementRoutingModule,
     NgSelectModule,
     FormsModule,
@@ -45,7 +47,9 @@ import { MenuComponent } from './menu/menu.component';
     BookingCustomerComponent,
     CommentModalComponent,
     DashboardComponent,
-    MenuComponent
+    MenuComponent,
+    MenuModalComponent,
+    MenuPermissionComponent
   ]
 })
 export class BookingManagementModule { }

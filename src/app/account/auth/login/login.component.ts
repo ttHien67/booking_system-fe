@@ -49,7 +49,6 @@ export class LoginComponent implements OnInit {
     const json = this.form.value;
     this.authService.login(json).pipe(first()).subscribe(res => {
       if(res) {
-        console.log(res);
         this.router.navigate(["/management"])
         .then(() => {
           window.location.reload();

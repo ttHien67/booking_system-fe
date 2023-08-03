@@ -40,6 +40,7 @@ export class EmployeeComponent implements OnInit {
       code: [null],
       name: [null],
       role: [null],
+      room: [null],
     })
   }
 
@@ -49,19 +50,16 @@ export class EmployeeComponent implements OnInit {
 
   getEmployeeList() {
     const json = {
-      code: this.f.code.value,
-      name: this.f.name.value,
-      role: this.f.role.value,
-
+      ...this.form.value,
       limit: this.pageSize,
       page: this.pageNumber
     }
 
     this.employeeService.getEmployee(json).subscribe(res => {
-      if(res.errorCode === '0' ) {
+      if (res.errorCode === '0') {
         this.listEmployee = res.data;
         this.totalSize = res.totalRecord;
-      }else { 
+      } else {
         this.toastService.error(res.errorDesc);
       }
     })
@@ -69,7 +67,7 @@ export class EmployeeComponent implements OnInit {
 
   getProduct() {
     this.productService.getProduct({}).subscribe(res => {
-      if(res.errorCode === '0'){
+      if (res.errorCode === '0') {
         this.listProduct = res.data;
       }
     })
@@ -85,8 +83,8 @@ export class EmployeeComponent implements OnInit {
   }
 
   openModal(item: any, type: any) {
-    const modalRef = this.modalService.open(EmployeeModalComponent, {centered: true, size: 'lg'});
-    if(item) {
+    const modalRef = this.modalService.open(EmployeeModalComponent, { centered: true, size: 'lg' });
+    if (item) {
       modalRef.componentInstance.item = item;
     }
     modalRef.componentInstance.title = item ? "Edit" : "Create";
@@ -98,7 +96,7 @@ export class EmployeeComponent implements OnInit {
     })
   }
 
-  
+
 
   deleteEmployee(item: any) {
     if (item) {

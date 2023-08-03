@@ -125,9 +125,9 @@ export class BookingConfirmComponent implements OnInit {
       console.log(err);  
     });
 
-    this.notificationService.sendNotification(this.form.value).subscribe(res => {
-      console.log(res);
-    })
+    // this.notificationService.sendNotification(this.form.value).subscribe(res => {
+    //   console.log(res);
+    // })
     this.loading = false;
   }
 

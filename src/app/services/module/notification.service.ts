@@ -11,16 +11,17 @@ import { CommandURL } from "../commands/api.command";
 export class NotificationService {
     constructor(
         private http: HttpClient
-    ){}
+    ) { }
 
     private header = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Methods': "DELETE, POST, GET, OPTIONS",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+        'Content-Type': 'application/json'
     })
 
-    sendNotification(json: any){
-        return this.http.post<any>(CommandURL.NOTIFICATION + '/sendNotification', json, {headers: this.header});
+    sendNotification(json: any) {
+        return this.http.post<any>(CommandURL.NOTIFICATION + '/sendNotification', json, { headers: this.header });
+    }
+
+    responseNotification(json: any) {
+        return this.http.post<any>(CommandURL.NOTIFICATION + '/responseNotification', json, { headers: this.header });
     }
 }

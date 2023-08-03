@@ -2,68 +2,61 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { EmployeeService } from 'src/app/services/module/employee.service';
-import { UserService } from 'src/app/services/module/user.service';
+import { AuthService } from 'src/app/services/module/auth.service';
+import { MenuService } from 'src/app/services/module/menu.service';
+import { PermissionService } from 'src/app/services/module/permission.service';
 
 @Component({
-  selector: 'app-employee-modal',
-  templateUrl: './employee-modal.component.html',
-  styleUrls: ['./employee-modal.component.css']
+  selector: 'app-menu-modal',
+  templateUrl: './menu-modal.component.html',
+  styleUrls: ['./menu-modal.component.css']
 })
-export class EmployeeModalComponent implements OnInit {
+export class MenuModalComponent implements OnInit {
 
   @Input() item: any;
   @Input() type: any;
-  @Input() listProduct: any;
+  @Input() listParentMenu: any;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
 
   form: any;
   isSubmit = false;
+  currentUser: any;
 
-  listQuantity = [
+  listRole = [
     {
-      code: 2
+      id: "ADMIN",
+      name: "Adminstration"
     },
     {
-      code: 10
-    },
-    {
-      code: 15
-    },
-  ];
+      id: "EMPLOYEE",
+      name: "Employee"
+    }
+  ]
 
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private employeeService: EmployeeService,
     private toastService: ToastrService,
-    private userService: UserService
+    private menuService: MenuService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
     this.initForm();
+    this.currentUser = this.authService.currentUser();
   }
 
 
   initForm() {
     this.form = this.formBuilder.group({
       id: [null],
-      code: [null, [Validators.required]],
       name: [null, [Validators.required, Validators.maxLength(255)]],
-      age: [null, [Validators.required, Validators.maxLength(3)]],
-      address: [null, [Validators.required]],
-      phone: [null, [Validators.required, Validators.maxLength(11)]],
-      email: [null, [Validators.required, Validators.maxLength(255)]],
-      role: [null, [Validators.required]],
-      maxCustomer: [null, [Validators.required]],
-      userName: [null],
-      password: [null],
+      path: [null, [Validators.required]],
+      parentId: [null, [Validators.required]],
       roleCode: [null],
-      room: [null, [Validators.required]]
     })
 
     if (this.item) {
-      this.f.code.disable();
       this.form.patchValue(this.item);
     }
   }
@@ -87,9 +80,12 @@ export class EmployeeModalComponent implements OnInit {
   }
 
   create() {
-    this.f.roleCode.patchValue("EMPLOYEE");
+    const json = {
+      creator: this.currentUser.userId,
+      ...this.form.value
+    }
 
-    this.employeeService.createEmployee(this.form.value).subscribe(res => {
+    this.menuService.createMenu(json).subscribe(res => {
       if (res.errorCode === '0') {
         this.toastService.success(res.errorDesc);
         this.passEntry.emit(res);
@@ -102,7 +98,7 @@ export class EmployeeModalComponent implements OnInit {
 
 
   update() {
-    this.employeeService.updateEmployee(this.form.value).subscribe(res => {
+    this.menuService.updateMenu(this.form.value).subscribe(res => {
       if (res.errorCode === '0') {
         this.toastService.success(res.errorDesc);
         this.passEntry.emit(res);
@@ -115,6 +111,5 @@ export class EmployeeModalComponent implements OnInit {
   close() {
     this.activeModal.dismiss();
   }
-
 
 }

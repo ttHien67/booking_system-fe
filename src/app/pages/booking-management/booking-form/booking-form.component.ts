@@ -21,7 +21,7 @@ export class BookingFormComponent implements OnInit {
 
   form: any;
   listBooking: Array<any> = [] ;
-  pageSize = 5;
+  pageSize = 10;
   pageNumber = 1;
   totalSize: any;
   listProduct: any;

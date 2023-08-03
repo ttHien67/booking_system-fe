@@ -33,13 +33,13 @@ export class BookingComponent implements OnInit {
   today = new Date().toISOString().split('T')[0];
 
   public config: ScannerQRCodeConfig = {
-    constraints: { 
+    constraints: {
       video: {
         width: window.innerWidth
       }
-    } 
+    }
   };
-  
+
   constructor(
     private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
@@ -57,7 +57,7 @@ export class BookingComponent implements OnInit {
     this.initForm();
     this.getEmployee();
     this.getProduct();
-    
+
   }
 
   initForm() {
@@ -69,8 +69,7 @@ export class BookingComponent implements OnInit {
       date: [null],
       time: [null],
       employeeId: [null, [Validators.required]]
-
-    }) 
+    })
   }
 
   get f() {
@@ -97,17 +96,18 @@ export class BookingComponent implements OnInit {
   submit() {
     this.loading = true;
     this.isSubmit = true;
-    if(this.form.status === 'INVALID') {
+    if (this.form.status === 'INVALID') {
+      this.loading = false;
       return;
-    }else {
+    } else {
       this.confirmBooking();
+      this.loading = false;
     }
     this.isSubmit = false;
-    this.loading = false;
   }
 
   confirmBooking() {
-    const modalRef = this.modalService.open(BookingConfirmComponent, {centered: true, size: 'lg', backdrop: 'static'});
+    const modalRef = this.modalService.open(BookingConfirmComponent, { centered: true, size: 'lg', backdrop: 'static' });
 
     this.f.date.patchValue(this.getDate());
     this.f.time.patchValue(this.getTime());
@@ -118,7 +118,7 @@ export class BookingComponent implements OnInit {
     modalRef.componentInstance.passEntry.subscribe((receivedEntry: any) => {
       this.modalService.dismissAll();
 
-      const modalQrCode = this.modalService.open(QrcodeGenerationComponent, {centered: true, size: 'lg', backdrop: 'static'});
+      const modalQrCode = this.modalService.open(QrcodeGenerationComponent, { centered: true, size: 'lg', backdrop: 'static' });
       modalQrCode.componentInstance.data = receivedEntry;
       modalQrCode.componentInstance.passEntry.subscribe((receivedEntry: any) => {
         this.modalService.dismissAll();
@@ -132,13 +132,13 @@ export class BookingComponent implements OnInit {
 
   getDate() {
     const d = new Date();
-    return (d.getFullYear() + '-' +  (d.getMonth() + 1) + '-' + d.getDate());
-    
+    return (d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate());
+
   }
 
-  getTime(){
+  getTime() {
     const d = new Date();
-    return (d.getHours() + ':' +  (d.getMinutes()) + ':' + d.getSeconds());
+    return (d.getHours() + ':' + (d.getMinutes()) + ':' + d.getSeconds());
   }
 
   changeProductType(event: any) {
@@ -146,21 +146,25 @@ export class BookingComponent implements OnInit {
       date: this.getDate(),
       productType: this.f.productType?.value
     }
-    
+
     this.listEmployeeFilter = this.listEmployee.filter(e => (e.role === event?.code));
 
     this.calendarWorkingService.countService(json).subscribe(res => {
-      if(res.errorCode === '0'){
-        for(let item of res.data){
-          this.listEmployeeFilter = this.listEmployeeFilter.filter(e => e.id !== item.employeeId || 
-              (e.maxCustomer > item.countService && e.id === item.employeeId));
+      if (res.errorCode === '0') {
+        for (let item of res.data) {
+          this.listEmployeeFilter = this.listEmployeeFilter.filter(e => e.id !== item.employeeId ||
+            (e.maxCustomer > item.countService && e.id === item.employeeId));
         }
 
         // auto choose teller mapping your role
         let randomTeller = Math.floor(Math.random() * this.listEmployeeFilter.length);
         this.f.employeeId.patchValue(this.listEmployeeFilter[randomTeller]?.id);
+
+        if(this.listEmployeeFilter.length === 0){
+          this.listEmployeeFilter = this.listEmployee.filter(e => (e.role === event?.code));  
+        }
       }
-    }) 
+    })
   }
 
   public onSelects(files: any) {
@@ -172,15 +176,15 @@ export class BookingComponent implements OnInit {
   show(event: any) {
 
     this.bookingService.getBooking(JSON.parse(event[0].value)).subscribe(res => {
-      if(res.errorCode === '0'){
-        if(res.data[0].status === 2){
-          const modalRef = this.modalService.open(CommentModalComponent, {centered: true, size: 'lg', backdrop: 'static'});
+      if (res.errorCode === '0') {
+        if (res.data[0].status === 2) {
+          const modalRef = this.modalService.open(CommentModalComponent, { centered: true, size: 'lg', backdrop: 'static' });
           modalRef.componentInstance.item = res.data[0];
           modalRef.componentInstance.passEntry.subscribe((receivedEntry: any) => {
             this.modalService.dismissAll();
           })
-        }else {
-          this.toastService.warning("Your transaction's status hasn't been done");
+        } else {
+          this.toastService.error("Your transaction's status hasn't been done");
         }
       }
     })

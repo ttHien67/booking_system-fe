@@ -102,13 +102,13 @@
       </div>
 
       <div class="col-sm-12 col-md-6 form-group">
-        <label class="pt-1">Teller<span class="text-danger">(*)</span></label>
+        <label class="pt-1">Room<span class="text-danger">(*)</span></label>
         <ng-select
           class="form-control"
           [ngClass]="{ 'is-invalid': isSubmit && f.employeeId.errors }"
           [items]="listEmployeeFilter"
           bindValue="id"
-          bindLabel="name"
+          bindLabel="room"
           formControlName="employeeId"
           [readonly]="true"
         >

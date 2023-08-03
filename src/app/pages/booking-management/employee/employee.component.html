@@ -56,6 +56,21 @@
                     (keyup.enter)="search()"
                   ></ng-select>
                 </div>
+
+                <label
+                  class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+                  >Room:</label
+                >
+                <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4 mt-2">
+                  <input
+                    type="text"
+                    formControlName="room"
+                    class="form-control"
+                    placeholder="Enter your room"
+                    autocomplete="none"
+                    (keyup.enter)="search()"
+                  />
+                </div>
               </div>
             </form>
             <div class="row pt-3">

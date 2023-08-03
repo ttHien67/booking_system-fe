@@ -10,9 +10,6 @@ const routes: Routes = [
   },
   {
     path: '', component: BookingComponent
-  },
-  {
-    path: 'comment', component: CommentModalComponent
   }
 
 

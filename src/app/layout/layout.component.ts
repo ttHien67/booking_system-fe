@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AuthService } from '../services/module/auth.service';
 import { MenuService } from '../services/module/menu.service';
+import { PermissionService } from '../services/module/permission.service';
+import { NotificationService } from '../services/module/notification.service';
 
 @Component({
   selector: 'app-layouts',
@@ -13,16 +15,21 @@ export class LayoutComponent implements OnInit {
   currentUser: any;
   name: any;
   listMenu: any;
+  listPermission: any;
+  listParentMenu: any;
 
   constructor(
     private authService: AuthService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private permissionService: PermissionService,
+    private notificatiionService: NotificationService
   ) { }
 
   ngOnInit() {
     this.currentUser = this.authService.currentUser();
     this.getFullName();
     this.getMenu();
+    // this.getParentMenu();
   }
 
   logout() {
@@ -36,31 +43,37 @@ export class LayoutComponent implements OnInit {
   getMenu() {
     const roleCode = this.currentUser.roleCode;
 
-    this.menuService.getMenu({roleCode}).subscribe(res => {
-      if(res.errorCode === '0'){
+    this.permissionService.getPermission({ roleCode: [roleCode] }).subscribe(res => {
+      if (res.errorCode === '0') {
+        this.listPermission = res.data;
+        this.menuService.getMenuForCategory(this.listPermission).subscribe(res => {
+          if (res.errorCode === '0') {
+            this.listMenu = res.data;
+
+          }
+        })
+      }
+    })
+  }
+
+  getParentMenu() {
+    this.menuService.getParentMenu({}).subscribe(res => {
+      if (res.errorCode === '0') {
+        this.listParentMenu = res.data;
+      }
+    })
+  }
+
+  getMenuChild(id: any) {
+    const json = {
+      parentId: id,
+      // roleCode: this.currentUser.roleCode
+    }
+    this.menuService.findAllMenu({ parentId: id }).subscribe(res => {
+      if (res.errorCode === '0') {
         this.listMenu = res.data;
       }
-    })  
-  }
-
-  ngAfterViewInit() {
-    document.body.classList.remove('authentication-bg');
-  }
-
-  /**
-   * on settings button clicked from topbar
-   */
-  onSettingsButtonClicked() {
-    document.body.classList.toggle('right-bar-enabled');
-  }
-
-  /**
-   * On mobile toggle button clicked
-   */
-  onToggleMobileMenu() {
-    document.body.classList.toggle('sidebar-enable');
-    document.body.classList.toggle('enlarged');
-    this.isCondensed = !this.isCondensed;
+    })
   }
 
 }

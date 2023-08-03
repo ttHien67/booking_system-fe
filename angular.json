@@ -35,7 +35,6 @@
               }
             ],
             "styles": [
-              "src/assets/scss/icons.scss",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"

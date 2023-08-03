@@ -30,8 +30,6 @@ export class AuthService {
     login(json: any) {
         return this.http.post<any>(CommandURL.LOGIN + '/login', json)
             .pipe(map(data => {
-                console.log(data);
-                
                 if(data && data.token){
                     sessionStorage.setItem("X-Token", data.token);
 

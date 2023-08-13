@@ -21,6 +21,7 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 import { MenuComponent } from './menu/menu.component';
 import { MenuModalComponent } from './menu/menu-modal/menu-modal.component';
 import { MenuPermissionComponent } from './menu/menu-permission/menu-permission.component';
+import {MatIconModule} from '@angular/material/icon'
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { MenuPermissionComponent } from './menu/menu-permission/menu-permission.
     NgbPaginationModule,
     ReactiveFormsModule,
     NgApexchartsModule,
-    NgxScannerQrcodeModule
+    NgxScannerQrcodeModule,
+    MatIconModule
 
 
   ],

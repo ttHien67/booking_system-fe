@@ -2,9 +2,6 @@
   <!-- <app-page-title title="Quản lý xã"></app-page-title> -->
   <div class="row">
     <div class="col-12 card-box">
-      <div class="border-bottom-dotted">
-        <h4 class="header-title text-primary">Employee Management</h4>
-      </div>
       <div class="row">
         <div class="col-12 p-0">
           <div class="p-2">
@@ -19,7 +16,7 @@
                   <input
                     type="text"
                     formControlName="code"
-                    class="form-control"
+                    class="form-control py-2"
                     placeholder="Enter your code"
                     autocomplete="none"
                     (keyup.enter)="search()"
@@ -34,7 +31,7 @@
                   <input
                     type="text"
                     formControlName="name"
-                    class="form-control"
+                    class="form-control py-2"
                     placeholder="Enter your name"
                     autocomplete="none"
                     (keyup.enter)="search()"
@@ -47,12 +44,13 @@
                 >
                 <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4 mt-2">
                   <ng-select
+                    aria-label="Default select example"
                     [items]="listProduct"
                     bindLabel="name"
                     bindValue="code"
                     formControlName="role"
                     autocomplete="none"
-                    class="form-control"
+                    class="form-control form-select py-2"
                     (keyup.enter)="search()"
                   ></ng-select>
                 </div>
@@ -65,7 +63,7 @@
                   <input
                     type="text"
                     formControlName="room"
-                    class="form-control"
+                    class="form-control py-2"
                     placeholder="Enter your room"
                     autocomplete="none"
                     (keyup.enter)="search()"
@@ -215,7 +213,7 @@
                   aria-controls="tickets-table"
                   name="pageSize"
                   (change)="changePageSize($event)"
-                  class="custom-select custom-select-sm form-control form-control-sm mx-2"
+                  class="form-select custom-select custom-select-sm form-control form-control-sm mx-2"
                 >
                   <option [value]="10">10</option>
                   <option [value]="25">25</option>

@@ -1,5 +1,5 @@
 <div class="modal-header align-middle">
-  <h4 id="modal-title">
+  <h4 id="modal-title" class="text-primary">
     {{
       type === "edit"
         ? "Edit booking"
@@ -76,7 +76,7 @@
       <div class="col-sm-12 col-md-6 form-group">
         <label class="pt-1">Product<span class="text-danger">(*)</span></label>
         <ng-select
-          class="form-control"
+          class="form-control form-select"
           [ngClass]="{ 'is-invalid': isSubmit && f.productType.errors }"
           [items]="listProduct"
           bindValue="code"
@@ -95,7 +95,7 @@
       <div class="col-sm-12 col-md-6 form-group">
         <label class="pt-1">Teller<span class="text-danger">(*)</span></label>
         <ng-select
-          class="form-control"
+          class="form-control form-select"
           [ngClass]="{ 'is-invalid': isSubmit && f.employeeId.errors }"
           [items]="listEmployeeFilter"
           bindValue="id"
@@ -113,7 +113,7 @@
       <div class="col-sm-12 col-md-6 form-group">
         <label class="pt-1">Status<span class="text-danger">(*)</span></label>
         <ng-select
-          class="form-control"
+          class="form-control form-select"
           [ngClass]="{ 'is-invalid': isSubmit && f.status.errors }"
           [items]="listStatus"
           bindValue="id"
@@ -129,10 +129,9 @@
     </div>
   </form>
 
-  <div class="modal-body">
+  <!-- <div class="modal-body">
     <h4 id="modal-title">Booking list</h4>
     <div class="row"></div>
-    <!-- <app-ui-preloader [display]="loading"></app-ui-preloader> -->
     <div class="col-12 table-responsive mt-2">
       <table class="table table-bordered table-sm table-hover m-w-tabble">
         <thead>
@@ -168,7 +167,7 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </div> -->
 </div>
 <div class="modal-footer" *ngIf="type !== 'view'">
   <button (click)="search()" class="btn btn-secondary" type="button">

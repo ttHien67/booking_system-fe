@@ -2,9 +2,6 @@
   <!-- <app-page-title title="Quản lý xã"></app-page-title> -->
   <div class="row">
     <div class="col-12 card-box">
-      <div class="border-bottom-dotted">
-        <h4 class="header-title text-primary">Booking Management</h4>
-      </div>
       <div class="row">
         <div class="col-12 p-0">
           <div class="p-2">
@@ -18,7 +15,7 @@
                   <input
                     type="text"
                     formControlName="name"
-                    class="form-control"
+                    class="form-control py-2"
                     placeholder="Enter your name"
                     autocomplete="none"
                     (keyup.enter)="search()"
@@ -32,7 +29,7 @@
                 >
                 <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4 mt-2">
                   <ng-select
-                    class="form-control"
+                    class="form-control form-select py-2"
                     [items]="listProduct"
                     bindValue="code"
                     bindLabel="name"
@@ -51,7 +48,7 @@
                   *ngIf="this.authService.currentUser().roleCode === 'ADMIN'"
                 >
                   <ng-select
-                    class="form-control"
+                    class="form-control form-select py-2"
                     [items]="listEmployee"
                     bindValue="id"
                     bindLabel="name"
@@ -68,7 +65,7 @@
                   <input
                     type="date"
                     formControlName="date"
-                    class="form-control"
+                    class="form-control py-2"
                     placeholder="Enter your date"
                   />
                 </div>
@@ -78,13 +75,13 @@
               <div class="col-4 text-left">
                 <button
                   type="button"
-                  class="btn btn-primary mr-1 mb-1"
+                  class="btn btn-primary mr-1"
                   (click)="openModal(null, 'create')"
                 >
                   <i class="fas fa-plus mr-1"></i>Create
                 </button>
 
-                <label class="label">
+                <label class="label btn btn-secondary">
                   <input
                     placeholder="Scan"
                     #file
@@ -130,7 +127,7 @@
                   class="btn btn-secondary mr-1 mb-1"
                   (click)="refresh()"
                 >
-                  <i class="fas fa-undo-alt mr-1"></i>Refresh
+                  <i class="fa-solid fa-rotate-right mr-1"></i>Refresh
                 </button>
                 <button
                   type="button"
@@ -254,7 +251,7 @@
                   aria-controls="tickets-table"
                   name="pageSize"
                   (change)="changePageSize(t.value)"
-                  class="custom-select custom-select-sm form-control form-control-sm mx-2"
+                  class="form-select custom-select custom-select-sm form-control form-control-sm mx-2"
                 >
                   <option [value]="10">10</option>
                   <option [value]="25">25</option>

@@ -1,19 +1,34 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
 import { map } from 'rxjs';
 import { BookingService } from 'src/app/services/module/booking.service';
 import { EmployeeService } from 'src/app/services/module/employee.service';
+import {
+  ApexAxisChartSeries,
+  ApexTitleSubtitle,
+  ApexDataLabels,
+  ApexFill,
+  ApexMarkers,
+  ApexYAxis,
+  ApexXAxis,
+  ApexTooltip,
+  ApexStroke
+} from "ng-apexcharts";
 
 export type ChartOptions = {
   series: ApexAxisChartSeries | any;
-  chart: ApexChart | any;
+  chart: any; //ApexChart;
   dataLabels: ApexDataLabels | any;
-  plotOptions: ApexPlotOptions | any;
+  markers: ApexMarkers | any;
+  title: ApexTitleSubtitle | any;
+  fill: ApexFill | any;
   yaxis: ApexYAxis | any;
   xaxis: ApexXAxis | any;
-  fill: ApexFill | any;
-  title: ApexTitleSubtitle | any;
+  tooltip: ApexTooltip | any;
+  stroke: ApexStroke | any;
+  grid: any; //ApexGrid;
+  colors: any;
+  toolbar: any;
 };
 
 @Component({
@@ -33,107 +48,144 @@ export class DashboardComponent implements OnInit {
   data: Array<any> = [];
   form: any;
 
+  public commonOptions: Partial<ChartOptions> = {
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: "straight"
+    },
+    toolbar: {
+      tools: {
+        selection: false
+      }
+    },
+    markers: {
+      size: 6,
+      hover: {
+        size: 10
+      }
+    },
+    tooltip: {
+      followCursor: false,
+      theme: "dark",
+      x: {
+        show: false
+      },
+      marker: {
+        show: false
+      },
+      y: {
+        title: {
+          formatter: function() {
+            return "";
+          }
+        }
+      }
+    },
+    grid: {
+      clipMarkers: false
+    },
+    xaxis: {
+      type: "datetime"
+    }
+  };
+
   constructor(
     private employeeService: EmployeeService,
     private bookingService: BookingService,
     private formBuilder: FormBuilder
 
   ) {
-   this.chartOptions = {};
+    this.chartOptions = {
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: "straight"
+    },
+    toolbar: {
+      tools: {
+        selection: false
+      }
+    },
+    markers: {
+      size: 6,
+      hover: {
+        size: 10
+      }
+    },
+    tooltip: {
+      followCursor: false,
+      theme: "dark",
+      x: {
+        show: false
+      },
+      marker: {
+        show: false
+      },
+      y: {
+        title: {
+          formatter: function() {
+            return "";
+          }
+        }
+      }
+    },
+    grid: {
+      clipMarkers: false
+    },
+    xaxis: {
+      type: "datetime"
+    }
+    };
    }
 
-   InitChart(title: any, data: any, date: any, month: any, year: any){
+   initChart(title: any, data: any, date: any, month: any, year: any){
     this.chartOptions = {
       series: [
         {
-          name: "Inflation",
-          data: data
+          name: "chart3",
+          data: this.generateDayWiseTimeSeries(
+            new Date("11 Feb 2017").getTime(),
+            20,
+            {
+              min: 10,
+              max: 60
+            }
+          )
         }
       ],
       chart: {
-        height: 350,
-        type: "bar"
+        id: "yt",
+        group: "social",
+        type: "area",
+        height: 300
       },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            position: "top" // top, center, bottom
-          }
-        }
-      },
-      dataLabels: {
-        enabled: true,
-        offsetY: -20,
-        style: {
-          fontSize: "12px",
-          colors: ["#304758"]
-        }
-      },
-
-      xaxis: {
-        categories: title,
-        position: "top",
-        labels: {
-          offsetY: -18
-        },
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          show: false
-        },
-        crosshairs: {
-          fill: {
-            type: "gradient",
-            gradient: {
-              colorFrom: "#D8E3F0",
-              colorTo: "#BED1E6",
-              stops: [0, 100],
-              opacityFrom: 0.4,
-              opacityTo: 0.5
-            }
-          }
-        },
-        tooltip: {
-          enabled: true,
-          offsetY: -35
-        }
-      },
-      fill: {
-        type: "gradient",
-        gradient: {
-          shade: "light",
-          type: "horizontal",
-          shadeIntensity: 0.25,
-          gradientToColors: undefined,
-          inverseColors: true,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [50, 0, 100, 100]
-        }
-      },
+      colors: ["#00E396"],
       yaxis: {
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          show: false
-        },
+        tickAmount: 2,
         labels: {
-          show: false
-        }
-      },
-      title: {
-        text: "Statistic Report Of Employees on " + date || month || year || "2023",
-        floating: 0,
-        offsetY: 320,
-        align: "center",
-        style: {
-          color: "#444"
+          minWidth: 40
         }
       }
     };
    }
+
+   public generateDayWiseTimeSeries(baseval: any, count: any, yrange: any): any[] {
+    let i = 0;
+    let series = [];
+    while (i < count) {
+      var x = baseval;
+      var y =
+        Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+
+      series.push([x, y]);
+      baseval += 86400000;
+      i++;
+    }
+    return series;
+  }
 
   ngOnInit() {
     this.initForm();
@@ -167,7 +219,7 @@ export class DashboardComponent implements OnInit {
       if(res.errorCode === '0'){
         this.data = res.data;
         this.data = this.data.map(e => e?.sumService ? e?.sumService : 0);
-        this.InitChart(this.listEmployee, this.data, this.f.date?.value, this.f.month?.value, this.f.year?.value);
+        this.initChart(this.listEmployee, this.data, this.f.date?.value, this.f.month?.value, this.f.year?.value);
 
       }
     })

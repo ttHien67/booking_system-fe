@@ -3,7 +3,7 @@
 
   <div class="container_form">
     <div class="modal-header align-middle">
-      <h4 class="header-title text-primary">BOOKING FORM</h4>
+      <h2 class="header-title text-primary">BOOKING FORM</h2>
     </div>
     <div class="modal-body">
       <form [formGroup]="form" id="form-1">
@@ -74,9 +74,7 @@
           </div>
 
           <div class="col-sm-12 col-md-6 form-group">
-            <label class="pt-1"
-              >Room<span class="text-danger">(*)</span></label
-            >
+            <label class="pt-1">Room<span class="text-danger">(*)</span></label>
             <ng-select
               class="form-control"
               [ngClass]="{ 'is-invalid': isSubmit && f.employeeId.errors }"
@@ -101,7 +99,7 @@
     </div>
 
     <div class="modal-footer mt-3">
-      <label class="label">
+      <label class="label btn btn-secondary">
         <input
           placeholder="Scan"
           #file
@@ -118,6 +116,7 @@
             (event)="show(actionFile.data.value)"
           ></ngx-scanner-qrcode>
         </div>
+        <i class="fa-solid fa-qrcode mr-1"></i>
         <span>Scan file</span>
       </label>
       <button (click)="submit()" class="btn btn-primary" type="button">

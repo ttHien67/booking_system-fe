@@ -37,7 +37,9 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/ngx-toastr/toastr.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/scss/paper-dashboard.scss",
+              "src/assets/css/demo.css"
               
             ],
             "scripts": [

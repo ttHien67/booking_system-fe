@@ -10,6 +10,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutsModule } from './layout/layout.module';
+import { DragulaModule } from 'ng2-dragula';
+
 
 
 @NgModule({
@@ -28,7 +30,8 @@ import { LayoutsModule } from './layout/layout.module';
     ToastrModule.forRoot({timeOut: 5000,
       positionClass: 'toast-top-right',
       preventDuplicates: true,}),
-    HttpClientModule
+    HttpClientModule,
+    DragulaModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

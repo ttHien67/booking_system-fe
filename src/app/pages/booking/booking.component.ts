@@ -10,6 +10,8 @@ import { QrcodeGenerationComponent } from './qrcode-generation/qrcode-generation
 import { ProductService } from 'src/app/services/module/product.service';
 import { NgxScannerQrcodeService, ScannerQRCodeConfig, ScannerQRCodeSelectedFiles } from 'ngx-scanner-qrcode';
 import { CommentModalComponent } from './comment-modal/comment-modal.component';
+import { NotificationService } from 'src/app/services/module/notification.service';
+import { WebSocketService } from 'src/app/services/module/websocket.service';
 
 @Component({
   selector: 'app-booking',
@@ -50,7 +52,7 @@ export class BookingComponent implements OnInit {
     private productService: ProductService,
     private qrcode: NgxScannerQrcodeService
 
-  ) { }
+  ) {}
 
   ngOnInit() {
     document.body.style.backgroundImage = 'url(\'assets/img/nature.jpg\')';
@@ -124,8 +126,6 @@ export class BookingComponent implements OnInit {
         this.modalService.dismissAll();
         this.initForm();
       })
-
-
     })
 
   }

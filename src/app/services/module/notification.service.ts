@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { EventEmitter, Injectable } from "@angular/core";
 import { CommandURL } from "../commands/api.command";
 
 
@@ -9,6 +9,9 @@ import { CommandURL } from "../commands/api.command";
 
 
 export class NotificationService {
+
+    notificationMessage = new EventEmitter();
+    
     constructor(
         private http: HttpClient
     ) { }

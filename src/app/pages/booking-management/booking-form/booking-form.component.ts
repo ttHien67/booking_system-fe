@@ -11,6 +11,8 @@ import { EmployeeService } from 'src/app/services/module/employee.service';
 import { AuthService } from 'src/app/services/module/auth.service';
 import { ProductService } from 'src/app/services/module/product.service';
 import { NgxScannerQrcodeService, ScannerQRCodeConfig, ScannerQRCodeSelectedFiles } from 'ngx-scanner-qrcode';
+import { NotificationService } from 'src/app/services/module/notification.service';
+import { WebSocketService } from 'src/app/services/module/websocket.service';
 
 @Component({
   selector: 'app-booking-form',
@@ -45,7 +47,9 @@ export class BookingFormComponent implements OnInit {
     private employeeService: EmployeeService,
     public authService: AuthService,
     private productService: ProductService,
-    private qrcode: NgxScannerQrcodeService
+    private qrcode: NgxScannerQrcodeService,
+    private notificationService: NotificationService,
+    private websocketService: WebSocketService
 
   ) { }
 
@@ -53,6 +57,7 @@ export class BookingFormComponent implements OnInit {
     this.initForm();
     this.getEmployee();
     this.getProduct();
+    this.connect();
 
     if(this.authService.currentUser().roleCode === 'EMPLOYEE'){
       this.getBookingOfEmployee();
@@ -60,6 +65,32 @@ export class BookingFormComponent implements OnInit {
       this.getBookingList();
     }   
   }
+
+  connect(): void {
+    this.websocketService.connect();
+
+    // subscribe receives the value.
+    this.notificationService.notificationMessage.subscribe((data) => {
+      console.log('receive message', data);
+      // this.notify(data);
+    });
+  }
+
+  disconnect(): void {
+    this.websocketService.disconnect();
+  }
+
+  // notify(message: any): void {
+  //   this.counter++;
+  //   const options = {
+  //     body: message.content,
+  //     icon: icon.get(message.type.toLowerCase())
+  //   };
+  //   this.pushNotifications.create('New Alert', options).subscribe(
+  //     res => console.log(res),
+  //     err => console.log(err)
+  //   );
+  // }
   
   initForm () {
     this.form = this.formBuilder.group({

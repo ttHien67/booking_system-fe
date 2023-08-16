@@ -143,6 +143,11 @@ export class BookingFormModalComponent implements OnInit {
     }
   }
 
+  cancel() {
+    this.passEntry.emit();
+  }
+
+
   getDate() {
     const d = new Date();
     return (d.getFullYear() + '-' +  (d.getMonth() + 1) + '-' + d.getDate());

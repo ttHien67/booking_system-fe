@@ -52,7 +52,8 @@ export class BookingConfirmComponent implements OnInit {
       productType: [null, [Validators.required]],
       date: [null],
       time:[null],
-      employeeId: [null, [Validators.required]]
+      employeeId: [null, [Validators.required]],
+      accountId: [null]
     });
     
     if(this.item) {
@@ -112,6 +113,9 @@ export class BookingConfirmComponent implements OnInit {
 
   create() {
     this.loading = true;
+    const employee = this.listEmployeeFilter.filter(item => item.id === this.f.employeeId.value);
+    this.f.accountId.patchValue(employee[0].accountId);
+
     this.calendarWorkingService.createCalendar(this.form.value).subscribe(res => {
       if(res.errorCode !== '0'){
         this.toastService.error("Something was wrong");
@@ -125,9 +129,10 @@ export class BookingConfirmComponent implements OnInit {
       console.log(err);  
     });
 
-    // this.notificationService.sendNotification(this.form.value).subscribe(res => {
-    //   console.log(res);
-    // })
+    this.notificationService.sendNotification(this.form.value).subscribe(res => {
+      console.log(res);
+    });
+    
     this.loading = false;
   }
 

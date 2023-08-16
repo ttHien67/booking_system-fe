@@ -169,10 +169,11 @@
                 </td>
               </tr>
               <tr *ngFor="let item of listEmployee; let i = index">
-                <td class="align-middle text-center text-primary">
-                  <span class="m-cursor" (click)="openModal(item, 'view')">
-                    {{ item?.code }}</span
-                  >
+                <td
+                  class="align-middle text-center text-primary"
+                  (click)="openModal(item, 'view')"
+                >
+                  <span class="m-cursor"> {{ item?.code }}</span>
                 </td>
                 <td class="align-middle">{{ item?.name }}</td>
                 <td class="align-middle">{{ item?.roleName }}</td>

@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModal, NgbToast } from '@ng-bootstrap/ng-bootstrap';
-import { CustomerService } from 'src/app/services/module/customer.service';
 import { BookingFormModalComponent } from './booking-form-modal/booking-form-modal.component';
 import { BookingService } from 'src/app/services/module/booking.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2'
-import { CustomerModalComponent } from '../customer/customer-modal/customer-modal.component';
 import { EmployeeService } from 'src/app/services/module/employee.service';
 import { AuthService } from 'src/app/services/module/auth.service';
 import { ProductService } from 'src/app/services/module/product.service';
@@ -30,7 +28,6 @@ export class BookingFormComponent implements OnInit {
 
   listEmployee: any;
   public qrCodeResult: ScannerQRCodeSelectedFiles[] = [];
-
   public config: ScannerQRCodeConfig = {
     constraints: { 
       video: {
@@ -47,18 +44,14 @@ export class BookingFormComponent implements OnInit {
     private employeeService: EmployeeService,
     public authService: AuthService,
     private productService: ProductService,
-    private qrcode: NgxScannerQrcodeService,
-    private notificationService: NotificationService,
-    private websocketService: WebSocketService
-
-  ) { }
+    private qrcode: NgxScannerQrcodeService
+  ) { 
+  }
 
   ngOnInit() {
     this.initForm();
     this.getEmployee();
     this.getProduct();
-    this.connect();
-
     if(this.authService.currentUser().roleCode === 'EMPLOYEE'){
       this.getBookingOfEmployee();
     }else {
@@ -66,25 +59,13 @@ export class BookingFormComponent implements OnInit {
     }   
   }
 
-  connect(): void {
-    this.websocketService.connect();
-
-    // subscribe receives the value.
-    this.notificationService.notificationMessage.subscribe((data) => {
-      console.log('receive message', data);
-      // this.notify(data);
-    });
-  }
-
-  disconnect(): void {
-    this.websocketService.disconnect();
-  }
+  
 
   // notify(message: any): void {
   //   this.counter++;
   //   const options = {
   //     body: message.content,
-  //     icon: icon.get(message.type.toLowerCase())
+  //     // icon: icon.get(message.type.toLowerCase())
   //   };
   //   this.pushNotifications.create('New Alert', options).subscribe(
   //     res => console.log(res),

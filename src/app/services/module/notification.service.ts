@@ -17,7 +17,8 @@ export class NotificationService {
     ) { }
 
     private header = new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Accept": "*/*"
     })
 
     sendNotification(json: any) {

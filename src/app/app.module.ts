@@ -28,7 +28,7 @@ import { DragulaModule } from 'ng2-dragula';
     LayoutsModule,
     AppRoutingModule,
     ToastrModule.forRoot({timeOut: 5000,
-      positionClass: 'toast-top-right',
+      positionClass: 'toast-top-center',
       preventDuplicates: true,}),
     HttpClientModule,
     DragulaModule.forRoot()

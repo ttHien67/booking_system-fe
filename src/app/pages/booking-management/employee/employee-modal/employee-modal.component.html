@@ -1,6 +1,12 @@
 <div class="modal-header align-middle">
-  <h4 id="modal-title">
-    {{ type === "edit" ? "Edit emloyee " : "Create emloyee " }}
+  <h4 id="modal-title" class="text-primary">
+    {{
+      type === "edit"
+        ? "Edit emloyee "
+        : type === "create"
+        ? "Create emloyee"
+        : "View"
+    }}
   </h4>
   <button
     (click)="activeModal.dismiss('Cross click')"
@@ -156,11 +162,7 @@
         </div>
       </div>
       <div class="col-sm-12 col-md-6 form-group">
-        <label class="pt-1"
-          >Room<span class="text-danger"
-            >(*)</span
-          ></label
-        >
+        <label class="pt-1">Room<span class="text-danger">(*)</span></label>
         <input
           class="form-control"
           [ngClass]="{ 'is-invalid': isSubmit && f.room.errors }"
@@ -171,15 +173,13 @@
           maxlength="255"
         />
         <div *ngIf="isSubmit && f.room.errors" class="invalid-feedback">
-          <span *ngIf="f.room.errors.required"
-            >Please enter your room</span
+          <span *ngIf="f.room.errors.required">Please enter your room</span
           ><br />
         </div>
       </div>
-
     </div>
     <div class="modal-body" *ngIf="type === 'create'">
-      <h4 id="modal-title">Employee account</h4>
+      <h4 id="modal-title" class="text-primary">Employee account</h4>
       <div class="row">
         <div class="col-sm-12 col-md-6 form-group">
           <label class="pt-1"
@@ -222,7 +222,6 @@
         </div>
       </div>
     </div>
-    
   </form>
 </div>
 <div class="modal-footer" *ngIf="type !== 'view'">

@@ -2,6 +2,9 @@ import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/co
 import { Router } from '@angular/router';
 import { Location} from '@angular/common';
 import { ROUTES } from '../sidebar/sidebar.component';
+import { AuthService } from 'src/app/services/module/auth.service';
+import { NotificationService } from 'src/app/services/module/notification.service';
+import { WebSocketService } from 'src/app/services/module/websocket.service';
 
 @Component({
     moduleId: module.id,
@@ -15,11 +18,21 @@ export class NavbarComponent implements OnInit{
     private nativeElement: Node;
     private toggleButton: any;
     private sidebarVisible: boolean;
+    counter = 0;
+    listNotification: Array<any> = [];
 
     public isCollapsed = true;
     @ViewChild("navbar-cmp", {static: false}) button: any;
 
-    constructor(location:Location, private renderer : Renderer2, private element : ElementRef, private router: Router) {
+    constructor(
+      location:Location, 
+      private renderer : Renderer2, 
+      private element : ElementRef, 
+      private router: Router,
+      private authService:AuthService,
+      private notificationService: NotificationService,
+      private websocketService: WebSocketService,
+    ) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -32,6 +45,8 @@ export class NavbarComponent implements OnInit{
         this.router.events.subscribe((event) => {
           this.sidebarClose();
        });
+      this.connect();
+
     }
     getTitle(){
       var titlee = this.location.prepareExternalUrl(this.location.path());
@@ -90,6 +105,35 @@ export class NavbarComponent implements OnInit{
           navbar.classList.remove('bg-white');
         }
 
+      }
+
+      logout() {
+        this.authService.logout();
+      }
+
+      show(menu: any) {
+        const menuElement = document.getElementsByClassName(menu.className)[0];
+        if(menuElement){
+          menuElement.classList.toggle("show");
+        }
+      }
+
+      connect(): void {
+        this.websocketService.connect();
+        console.log(this.listNotification);
+    
+    
+        // subscribe receives the value.
+        this.notificationService.notificationMessage.subscribe((data) => {
+          this.listNotification.push(data);
+          this.counter = this.listNotification.length;
+          console.log(this.listNotification);
+          
+        });
+      }
+    
+      disconnect(): void {
+        this.websocketService.disconnect();
       }
 
 }

@@ -36,8 +36,6 @@ import {MatIconModule} from '@angular/material/icon'
     NgApexchartsModule,
     NgxScannerQrcodeModule,
     MatIconModule
-
-
   ],
   declarations: [
     BookingFormComponent,
